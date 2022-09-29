@@ -1,0 +1,45 @@
+@import url("https://fonts.googleapis.com/css2?family=Mulish:wght@300;400;500&display=swap");
+
+:root {
+  --primary: #111b54;
+  --second: #fff;
+  --grey: #efefef;
+  --hover: #f6bf60;
+}
+
+* {
+  font-family: "Mulish", sans-serif;
+}
+
+#productos {
+  flex-flow: row wrap;
+}
+.bg-primary {
+  background-color: var(--primary) !important;
+}
+
+#sidebar-container .logo h4 {
+  padding: 10px;
+}
+#sidebar-container {
+  min-height: 100vh;
+}
+#sidebar-container .menu {
+  width: 16rem;
+}
+
+#sidebar-container .menu a {
+  color: var(--second);
+  display: block;
+  font-size: 17px;
+  padding: 10px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+#sidebar-container .menu a:visited {
+  color: var(--second);
+}
+#sidebar-container .menu a:hover {
+  color: var(--hover);
+}
