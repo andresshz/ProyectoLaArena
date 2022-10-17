@@ -48,6 +48,36 @@ const ControllerProductos = {
         } catch (e) {
             return res.status(500).send(e.message)
         }
+    },
+
+    eliminar: async (req, res, next) => {
+        const { body } = req
+        try {
+            const producto = await Producto.findById(body.id)
+            if (producto) {
+                producto.remove()
+                res.status(200).send('exito')
+            }
+        } catch (e) {
+            return res.status(500).send(e.message)
+        }
+    },
+
+    modificar: async (req, res, next) => {
+        const { body } = req
+        try {
+         const producto = await Producto.findById(body._id)
+         if(producto){
+            producto.nombre = body.nombre
+            producto.precio = body.precio
+            producto.existencia = body.existencia
+            producto.save()
+            console.log(producto)
+            res.status(200).send('exito')
+         }
+        } catch (e) {
+            return res.status(500).send(e.message)
+        }
     }
 
 }

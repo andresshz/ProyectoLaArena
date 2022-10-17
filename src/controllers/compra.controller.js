@@ -1,14 +1,78 @@
 import { Compra } from '../models/compra.model.js'
+import { Producto } from '../models/productos.model.js'
+import { Saldo } from '../models/saldo.inventario.js';
+import dotenv from 'dotenv';
+dotenv.config()
+
+const actualizarSaldo = async (total) => {
+
+    try {
+        const date = new Date()
+        const saldoId = await Saldo.findById(process.env.ID)
+        if(saldoId){
+            const saldoBase = saldoId.saldo 
+            const suma = saldoBase + total
+            saldoId.saldo = suma
+            saldoId.fecha = date.toLocaleDateString()
+            saldoId.save()
+        }
+        console.log(saldoId)
+    } catch (e) {
+       res.status(500).send('error')
+    }
+
+}
+
+const actualizar = async (nombres, cantidad, names, cantidadUnica) => {
+
+    const nombresLength = nombres.length;
+    console.log('cantidad' + nombresLength)
+    if (nombresLength > 1) {
+        for (let i = 0; i < nombres.length; i++) {
+            const productoActu = await Producto.findOne({ nombre: nombres[i] });
+            const cantidadBdd = productoActu.existencia;
+            console.log(cantidadBdd)
+            for (let j = 1; j < cantidad.length; j++) {
+                const resta = cantidadBdd - cantidad[j];
+                productoActu.existencia = resta
+                productoActu.save()
+            }
+        }
+    } else {
+        const productoActu = await Producto.findOne({ nombre: names });
+        const cantidadBdd = productoActu.existencia;
+        const resta = cantidadBdd - cantidadUnica
+        productoActu.existencia = resta
+        productoActu.save()
+    }
+
+}
 
 const ControllerCompras = {
-    
+
     agregar: async (req, res, next) => {
         const { body } = req
+        const date = new Date()
+        //Actualizar existencias...
+        const actuExistencia = await actualizar(body.arraysNames, body.array, body.name, body.cantidad)
 
-        const create = await Compra.create({ nombreCompra: body.compra, total: body.total })
+        //Actualizar saldo...
+        const actuSaldo = await actualizarSaldo(body.total)
+        //Crear compra
+        const create = await Compra.create({ nombreCompra: body.nombreCompra, total: body.total, fecha: date.toLocaleDateString() })
         if (create) {
             res.status(200).send('Exito')
-            next()
+        }
+    },
+
+    eliminar: async (req, res, next) => {
+        const { body } = req
+
+        const compra = await Compra.findById(body._id)
+
+        if (compra) {
+            compra.remove()
+            res.status(200).send('exito')
         }
     }
 }

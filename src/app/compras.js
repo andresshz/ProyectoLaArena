@@ -15,6 +15,16 @@ const numberValidate = (cadena) => {
   }
 }
 
+const validarMayor0 = (cantidadInput, cantidadBD) => {
+  const valor1 = 1;
+  const valor2 = 2;
+  if (cantidadInput > cantidadBD) {
+    return valor1;
+  }
+  return valor2;
+
+}
+
 //obtener precio por id = Función 1
 const obtenerPrecio = async (_id) => {
 
@@ -32,12 +42,64 @@ const obtenerPrecio = async (_id) => {
   return respuestaPrecio;
 }
 
+const validarBoton = (obj) => {
+  return Object.keys(obj).length === 0
+}
+
+const confirmarCompra = (datos = {}) => {
+
+  const formulario = document.getElementById('formulario')
+  formulario.onsubmit = async (e) => {
+    e.preventDefault()
+    if (validarBoton(datos)) {
+      Swal.fire({
+        title: 'Debe agregar una compra para confirmar!!!!!',
+        icon: 'error',
+        confirmButtonColor: '#3085d6',
+        confirmButtonText: 'OK'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          return;
+        }
+      })
+    } else {
+      const request = await fetch('/buyConfirm', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(datos)
+      })
+
+      const responses = await request.text()
+
+      if (responses === 'Exito') {
+        Swal.fire({
+          title: 'Compra realizada correctamente!!!!',
+          icon: 'success',
+          confirmButtonColor: '#3085d6',
+          confirmButtonText: 'OK'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            location.reload()
+          }
+        })
+      }
+    }
+
+
+
+  }
+}
+
 //Obtener la cantidad productos y precio con el evento onclick. Función 2
 const añadir = (respuesta) => {
-  const array = []
-  const arrayPrecio = []
-  const arrayProductos = []
-  
+  const array = [] //Array de total productos
+  const arrayPrecio = [] //Array de precio
+  const arrayProductos = [] //Array de productos
+  const arrayNombres = [] //Nombre de producto
+
+
   respuesta.forEach((lista, i) => {
 
     const nombre = lista.nombre;
@@ -48,8 +110,13 @@ const añadir = (respuesta) => {
       const cantidad = document.getElementById('cantidad' + nombre).value;
       const empty = emptyValidate(cantidad)
       const numer = numberValidate(cantidad)
+      const value0 = validarMayor0(cantidad, lista.existencia)
+      if (value0 == 1) {
+        Swal.fire('No hay esta cantidad de productos en existencia.')
+        return;
+      }
       if (numer === 'false' && empty === 'false') {
-        alert('Rellenar el campo, y/o ingresar solo números')
+        Swal.fire('Rellenar el campo, y/o ingresar solo números')
         return;
       }
 
@@ -62,15 +129,22 @@ const añadir = (respuesta) => {
       const sumaPrecio = arrayPrecio.reduce((a, b) => a + b);
       const total = document.getElementById('total')
       total.innerHTML = 'Tota a pagar: $' + sumaPrecio;
-      
-      const nombreCompra = precio.nombre + 'Cantidad: '+ cantidad;
-      arrayProductos.push(nombreCompra)
-      const compraJSON = {
-        'nombreCompra': arrayProductos,
-        'total': sumaPrecio
-      }
-      console.log(compraJSON)
 
+      const nombreCompra = precio.nombre + 'Cantidad: ' + cantidad;
+      arrayProductos.push(nombreCompra)
+      const sumaTextos = arrayProductos.reduce((a, b) => a + ' -- ' + b);
+      arrayNombres.push(precio.nombre)
+      const precioTotal = parseFloat(sumaPrecio.toFixed(2))
+      const compraJSON = {
+        'name': precio.nombre,
+        'nombreCompra': sumaTextos,
+        'total': precioTotal,
+        'nombre': arrayNombres + "",
+        'cantidad': cantidad,
+        'arraysNames': arrayNombres,
+        'array': array
+      }
+      confirmarCompra(compraJSON)
     }
   })
 
@@ -102,7 +176,6 @@ const obtener = async () => {
     </div>
    </div>
    `;
-
     listProduct += card
   })
   const main = document.getElementById('productos')
@@ -110,11 +183,32 @@ const obtener = async () => {
   añadir(respuesta) //Función 2
 }
 
+
+const templateMenu = () => {
+  const template = `<div class="logo">
+  <h4 class="text-light font-weight-bold">La Arena</h4>
+</div>
+  <div class="menu">
+    <a href="/administracion"><i class="icon ion-md-cart" style="margin-right: 2%;"></i>Realizar compra</a>
+    <a href="/comprasRealizadas"><i class="icon ion-md-card" style="margin-right: 2%;"></i>Compras</a>
+    <a href="/pdf"><i class="icon ion-md-book" style="margin-right: 2%;"></i>Generar PDF</a>
+    <a href="/productoAdd"><i class="icon ion-md-checkbox" style="margin-right: 2%;"></i>Añadir producto</a>
+    <a href="/produtosAdd"><i class="icon ion-md-clipboard" style="margin-right: 2%;"></i>Administrar productos</a>
+    <a href="/inventario"><i class="icon ion-md-cash" style="margin-right: 2%;"></i></i>Administrar Inventario</a>
+  </div>`
+
+  const menu = document.getElementById('sidebar-container')
+  menu.innerHTML = template
+
+}
+
 const checkLogin = () => localStorage.getItem('tokenSecreto')
 window.onload = () => {
   const isLoged = checkLogin()
   if (isLoged) {
+    templateMenu()
     obtener()
+    confirmarCompra()
   } else {
     const body = document.getElementsByTagName('body')[0]
     body.innerHTML = 'No puede ver este contenido'
