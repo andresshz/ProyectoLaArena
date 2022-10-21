@@ -17,7 +17,7 @@ const port = 3000 || process.env.PORTU
 const app = express()
 
 
-mongoose.connect(process.env.MONGODB)
+mongoose.connect('mongodb+srv://andres_mgDB:150193vasquezFV04@andrescluster.wkcwf.mongodb.net/arena-app?retryWrites=true&w=majority')
 
 app.set('views', __dirname)
 app.use(express.json())
