@@ -48,11 +48,11 @@ const Controller = {
                     const token = signedToken(userByName._id);
                     return res.status(200).send(token)
                 } else {
-                    return res.status(500).send('Usuario y/o contraseña incorrectas')
+                    return res.status(500).send('Error')
                 }
             }
         } catch (e) {
-            return res.status(500).send('Usuario y/o contraseña incorrectas')
+            return res.status(500).send('Error')
         }
     }
 }

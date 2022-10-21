@@ -1,11 +1,24 @@
-const confirmarModificacion = ()=>{
+const validacionEmpty = (cadena) => {
+
+    if (cadena.length === 0) {
+        return "false"
+    } else {
+        return 'ok';
+    }
+}
+
+const confirmarModificacion = () => {
     const btn = document.getElementById('btn-save')
     btn.onclick = async () => {
         const _id = document.getElementById('_id').value
         const saldo = document.getElementById('saldo').value
+        const empty = validacionEmpty(saldo)
+        if (empty === "false") {
+            Swal.fire('Porfavor rellene el campo vacio!!!')
+            return;
+        }
         const saldoDecimales = Number.parseFloat(saldo).toFixed(2)
-        const numero = saldoDecimales
-        const json = { '_id': _id, 'saldo': saldoDecimales}
+        const json = { '_id': _id, 'saldo': saldoDecimales }
 
         const request = await fetch('/modificarInventario', {
             method: 'POST',
@@ -21,31 +34,31 @@ const confirmarModificacion = ()=>{
                 icon: 'success',
                 confirmButtonColor: '#3085d6',
                 confirmButtonText: 'OK'
-              }).then((result) => {
+            }).then((result) => {
                 if (result.isConfirmed) {
                     location.reload()
                 }
-              })
+            })
         }
     }
 }
 
-const Modificar = () =>{
+const Modificar = () => {
 
 
     const btn = document.getElementById('btn-mod')
 
-    btn.onclick = async ( ) =>{
+    btn.onclick = async () => {
 
         const btn_value = btn.value
-        
-        const json = { '_id':btn_value}
+
+        const json = { '_id': btn_value }
         const request = await fetch('/saldoId', {
-            method:'POST',
-            headers:{
-                'Content-Type':'application/json'
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
             },
-            body:JSON.stringify(json)
+            body: JSON.stringify(json)
         })
 
         const responses = await request.json()
@@ -55,24 +68,24 @@ const Modificar = () =>{
             <label class="form-label" >Cambiar Saldo:</label>
             <input type="number" value="${responses.saldo}" name="saldo" id="saldo" class="form-control" required>
             </form>`
-            const mbody = document.getElementById('modal_body')
-            mbody.innerHTML = template
-        }
+        const mbody = document.getElementById('modal_body')
+        mbody.innerHTML = template
     }
+}
 
 
-const MostrarSaldo = async () =>{
+const MostrarSaldo = async () => {
 
 
     const request = await fetch('/saldoInventario', {
-        method:'GET',
+        method: 'GET',
         headers: {
-            'Content-Type':'application/json'
+            'Content-Type': 'application/json'
         }
     })
 
     const responses = await request.json()
-    
+
     const mapS = responses.map(res => {
         const template = `<tr>
         <td>${res.saldo}</td>
@@ -86,11 +99,11 @@ const MostrarSaldo = async () =>{
         const tbody = document.getElementById('tbody')
 
         tbody.innerHTML = template
-        
+
         Modificar()
         confirmarModificacion()
     })
-    
+
 
 }
 

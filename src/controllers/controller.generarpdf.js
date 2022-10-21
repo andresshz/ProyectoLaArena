@@ -104,9 +104,11 @@ const Pdf = {
                 });
 
                 res.status(200).send('exito')
+            }else{
+                res.status(500).send('Error')
             }
         } catch (e) {
-
+            res.status(500).send('Error')
         }
     }
 

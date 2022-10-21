@@ -2,16 +2,18 @@ const initTemplate = () => {
 
     const template = `
 <div style="width:100%; margin-top:10%">
+
  <form id="formulario" style="width:400px; margin:0 auto; background-color:white; padding:30px; border-radius:3px;">
+ <h3 style="text-align:center;">Login</h3>
   <div class="mb-3">
-    <label for="username" class="form-label">Username:</label>
-    <input type="text" class="form-control" id="username" name="username" required>
+    <label for="username" class="form-label">Ingrese username:</label>
+    <input type="text" class="form-control" id="username" name="username">
   </div>
   <div class="mb-3">
-    <label for="password" class="form-label">Password</label>
+    <label for="password" class="form-label">Ingrese su contraseña:</label>
     <input type="password" class="form-control" id="password" name="password">
   </div>
-  <button style="width:auto;" type="submit" class="btn btn-success">Iniciar Sesion</button>
+  <button style="width:100%;" type="submit" class="btn btn-success">Iniciar Sesion</button>
  </form>
 </div>
 `;
@@ -19,6 +21,14 @@ const initTemplate = () => {
     body.innerHTML = template
 }
 
+const validacionEmpty = (cadena) => {
+
+    if (cadena.length === 0) {
+        return "false"
+    } else {
+        return 'ok';
+    }
+}
 
 const logeo = () => {
 
@@ -27,7 +37,22 @@ const logeo = () => {
         e.preventDefault()
         const data = new FormData(form)
         const dataObject = Object.fromEntries(data.entries())
-        console.log(dataObject)
+        const Username = document.getElementById('username').value
+        const password = document.getElementById('password').value
+
+        const emptyUsername = validacionEmpty(Username)
+        const emptyPassword = validacionEmpty(password)
+        
+        if (emptyUsername === 'false') {
+            Swal.fire('Rellene el campo vacio porfavor!!!')
+            return;
+        } 
+        
+        if (emptyPassword === 'false') {
+            Swal.fire('Rellene el campo vacio porfavor!!!')
+            return;
+        }
+
         const request = await fetch('/logeo', {
             method: 'POST',
             headers: {
@@ -37,9 +62,17 @@ const logeo = () => {
         })
 
         const token = await request.text();
-
-        localStorage.setItem('tokenSecreto', token)
-        form.reset();
+        if(token === "Error"){
+            Swal.fire('Usuario y/o contraseñas incorrectass')
+            return;
+        }else{
+            localStorage.setItem('tokenSecreto', token)
+            Swal.fire('Logeado correctamente, bienvenido!!!!')
+            form.reset();
+            setTimeout( function() { window.location.href = "/administracion"; }, 5000 );
+            
+        }
+        
     }
 }
 

@@ -26,13 +26,14 @@ const actualizarSaldo = async (total) => {
 const actualizar = async (nombres, cantidad, names, cantidadUnica) => {
 
     const nombresLength = nombres.length;
-    console.log('cantidad' + nombresLength)
+    
     if (nombresLength > 1) {
-        for (let i = 0; i < nombres.length; i++) {
+        for (let i = 0; i < nombresLength.length; i++) {
             const productoActu = await Producto.findOne({ nombre: nombres[i] });
+            console.log(productoActu)
             const cantidadBdd = productoActu.existencia;
             console.log(cantidadBdd)
-            for (let j = 1; j < cantidad.length; j++) {
+            for (let j = 1; j < nombresLength.length; j++) {
                 const resta = cantidadBdd - cantidad[j];
                 productoActu.existencia = resta
                 productoActu.save()

@@ -6,15 +6,36 @@ const validacionEmpty = (cadena, cadena2, cadena3) => {
         return 'ok';
     }
 }
-
-
 const stringValidate = (cadena) => {
+
     if (/^[A-Z]+$/i.test(cadena)) {
         return "ok";
     } else {
         return "false";
     }
+
 }
+
+const numberValidate = (cadena) => {
+    if (/^[0-9]+$/.test(Math.floor(cadena))) {
+        return "ok";
+    } else {
+        return "false";
+    }
+}
+
+const validateEspacios = (cadena) => {
+    if (/\s/.test(cadena)) {
+        
+        let cadenaSinEspacios = cadena.replace(/\s/g,'')
+        const string = stringValidate(cadenaSinEspacios)
+        return string;
+    } else {
+        const string = stringValidate(cadena)
+        return string;
+    }
+}
+
 
 const Request = async (body) => {
 
@@ -60,12 +81,19 @@ const addForm = () => {
         const campoPrecio = document.getElementById('precio').value
         const campoExistencia = document.getElementById('existencia').value
         const empty = validacionEmpty(campoNombre, campoPrecio, campoExistencia)
-        const string = stringValidate(campoNombre)
-        if(empty === 'false'){
+        const string = validateEspacios(campoNombre)
+        const numberExistencia = numberValidate(campoExistencia)
+        const numberPrecio = numberValidate(campoPrecio)
+
+        if (empty === 'false') {
             Swal.fire('Rellene el campo vacio porfavor!!!')
             return;
         }
-        if(string === "false" ){
+        if (numberExistencia === 'false' || numberPrecio === 'false') {
+            Swal.fire('Ingrese el valor correcto para la existencia y/o el precio.')
+            return;
+        }
+        if (string === "false") {
             Swal.fire('Ingrese el valor correcto para nombre.')
             return;
         }

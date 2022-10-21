@@ -25,6 +25,17 @@ const validarMayor0 = (cantidadInput, cantidadBD) => {
 
 }
 
+const btnLimpiar = () =>{
+  const btnClear = document.getElementById('limpiar')
+  btnClear.onclick = () =>{
+    const formulario = document.getElementById('formulario')
+    formulario.onsubmit = (e) =>{
+      formulario.reset()
+    }
+  }
+}
+
+
 //obtener precio por id = Función 1
 const obtenerPrecio = async (_id) => {
 
@@ -128,9 +139,9 @@ const añadir = (respuesta) => {
       arrayPrecio.push(precio.precio * cantidad)
       const sumaPrecio = arrayPrecio.reduce((a, b) => a + b);
       const total = document.getElementById('total')
-      total.innerHTML = 'Tota a pagar: $' + sumaPrecio;
+      total.innerHTML = '<i class="icon ion-md-cash"></i> Tota a pagar: $' + sumaPrecio;
 
-      const nombreCompra = precio.nombre + 'Cantidad: ' + cantidad;
+      const nombreCompra = precio.nombre + ' ' + 'Cantidad: ' + cantidad;
       arrayProductos.push(nombreCompra)
       const sumaTextos = arrayProductos.reduce((a, b) => a + ' -- ' + b);
       arrayNombres.push(precio.nombre)
@@ -164,7 +175,7 @@ const obtener = async () => {
   respuesta.forEach((lista, i) => {
 
     const card = `
-    <div class="card" style="width: 16rem; height:16rem; margin-left:10%;">
+    <div class="card" style="width: 16rem; height:18rem; margin-left:10%; margin-top:3%;">
     <div class="card-body">
       <h6 style="display: none;" id="titulo">${lista.nombre}</h6>
       <h5 class="card-title"><b>Producto:</b> ${lista.nombre}</h5>
@@ -209,6 +220,7 @@ window.onload = () => {
     templateMenu()
     obtener()
     confirmarCompra()
+    btnLimpiar()
   } else {
     const body = document.getElementsByTagName('body')[0]
     body.innerHTML = 'No puede ver este contenido'

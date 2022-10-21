@@ -1,3 +1,40 @@
+const validacionEmpty = (cadena, cadena2, cadena3) => {
+
+    if (cadena.length === 0 && cadena2.length === 0, cadena3.length === 0) {
+        return "false"
+    } else {
+        return 'ok';
+    }
+}
+const numberValidate = (cadena) => {
+    if (/^[0-9]+$/.test(Math.floor(cadena))) {
+        return "ok";
+    } else {
+        return "false";
+    }
+}
+
+
+const stringValidate = (cadena) => {
+
+    if (/^[A-Z]+$/i.test(cadena)) {
+        return "ok";
+    } else {
+        return "false";
+    }
+
+}
+const validateEspacios = (cadena) => {
+    if (/\s/.test(cadena)) {
+        let cadenaSinEspacios = cadena.replace(/\s/g, '')
+        const string = stringValidate(cadenaSinEspacios)
+        return string;
+    } else {
+        const string = stringValidate(cadena)
+        return string;
+    }
+}
+
 const confirmarModificacion = () => {
     const btn = document.getElementById('btn-save')
     btn.onclick = async () => {
@@ -5,6 +42,28 @@ const confirmarModificacion = () => {
         const nombre = document.getElementById('nombre').value
         const precio = document.getElementById('precio').value
         const existencia = document.getElementById('existencia').value
+
+        const string = validateEspacios(nombre)
+        const empty = validacionEmpty(nombre, precio, existencia)
+        const numberExistencia = numberValidate(existencia)
+        const numberPrecio = numberValidate(precio)
+
+        if (empty === 'false') {
+            Swal.fire('Rellene el campo vacio porfavor!!!')
+            return;
+        }
+        if (string === "false") {
+            Swal.fire('Ingrese el valor correcto para nombre.')
+            return;
+        }
+        if (numberExistencia === "false") {
+            Swal.fire('Ingrese el valor correcto para la existencia')
+            return;
+        }
+        if (numberPrecio === "false") {
+            Swal.fire('Ingrese el valor correcto para el precio')
+            return;
+        }
         const json = { '_id': _id, 'nombre': nombre, 'precio': precio, 'existencia': existencia }
 
         const request = await fetch('/confirmarModificacion', {
@@ -51,7 +110,7 @@ const ModificarProducto = (posiciones = []) => {
             <label class="form-label" >Cambiar nombre:</label>
             <input type="text" value="${responses.nombre}" name="nombre" id="nombre" class="form-control" required>
             <label class="form-label" >Cambiar precio:</label>
-            <input type="text" value="${responses.precio}" name="precio" id="precio" class="form-control" required>
+            <input type="text" value="${responses.precio}" name="precio" step="0.01" id="precio" class="form-control" required>
             <label class="form-label" >Cambiar existencia:</label>
             <input type="text" value="${responses.existencia}" name="existencia" id="existencia" class="form-control" required>
             </form>`
@@ -95,12 +154,12 @@ const EliminarProducto = async (productos = []) => {
                             'Eliminado!',
                             'El producto ha sido eliminado correctamente!!!',
                             'success'
-                        ).then((result)=>{
-                           if(result.isConfirmed){
-                            location.reload()
-                           }
+                        ).then((result) => {
+                            if (result.isConfirmed) {
+                                location.reload()
+                            }
                         })
-                        
+
                     }
                 }
             })
