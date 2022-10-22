@@ -78,6 +78,9 @@ app.post('/logeo', Controller.login)
 app.post('/add', ControllerProductos.añadir)
 app.post('/buyConfirm', ControllerCompras.agregar)
 
+app.get('*', (req, res)=>{
+    res.redirect('/login')
+})
 
 app.listen(port, () => {
     console.log("Arrancando api!!!!" + port)
