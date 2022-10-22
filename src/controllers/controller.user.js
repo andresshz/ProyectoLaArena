@@ -3,6 +3,8 @@ import { User } from '../models/model.user.js'
 import jsonwebtoken from 'jsonwebtoken'
 import dotenv from 'dotenv'
 import express from 'express'
+import bcryptjs from 'bcryptjs'
+
 dotenv.config()
 
 const signedToken = _id => jsonwebtoken.sign({ _id }, process.env.SECRETO)
@@ -33,7 +35,7 @@ const validateJwt = (req, res, next) => {
     }
 }
 
-const isAuthenticated = express.Router().use(validateJwt,findAndAssignUser)
+const isAuthenticated = express.Router().use(validateJwt, findAndAssignUser)
 
 const Controller = {
     login: async (req, res, next) => {
@@ -43,7 +45,7 @@ const Controller = {
             if (!userByName) {
                 return res.status(500).send(e.message)
             } else {
-                const match = await bycrypt.compare(body.password, userByName.password)
+                const match = bcryptjs.compareSync(body.password, userByName.password)
                 if (match) {
                     const token = signedToken(userByName._id);
                     return res.status(200).send(token)
@@ -57,4 +59,4 @@ const Controller = {
     }
 }
 
-export { Controller , isAuthenticated}
+export { Controller, isAuthenticated }
