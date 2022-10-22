@@ -16,8 +16,9 @@ const __dirname = dirname(fileURLToPath(import.meta.url))
 const port = process.env.PORT
 const app = express()
 
+const mongodb = process.env.MONGODB
 
-mongoose.connect(process.env.MONGODB)
+mongoose.connect(mongodb)
 
 app.set('views', __dirname)
 app.use(express.json())
