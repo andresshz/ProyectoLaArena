@@ -1,4 +1,3 @@
-import bycrypt from 'bcrypt'
 import { User } from '../models/model.user.js'
 import jsonwebtoken from 'jsonwebtoken'
 import dotenv from 'dotenv'
