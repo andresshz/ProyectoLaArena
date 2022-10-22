@@ -13,7 +13,7 @@ dotenv.config()
 
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
-const port = 3000 || process.env.PORTU
+const port = process.env.PORTU
 const app = express()
 
 
@@ -79,5 +79,5 @@ app.post('/add', ControllerProductos.añadir)
 app.post('/buyConfirm', ControllerCompras.agregar)
 
 app.listen(port, () => {
-    console.log("Arrancando api!!!!")
+    console.log("Arrancando api!!!!" + port)
 })
