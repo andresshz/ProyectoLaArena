@@ -18,7 +18,7 @@ const actualizarSaldo = async (total) => {
         }
         console.log(saldoId)
     } catch (e) {
-       res.status(500).send('error')
+       return "Error";
     }
 
 }
