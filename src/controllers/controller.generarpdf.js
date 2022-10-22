@@ -95,7 +95,10 @@ const Pdf = {
         </body>
     </html>      
                   `
-                html_pdf.create(template).toFile(`C:/Users/andre/OneDrive/Escritorio/PDF-pruebas/${body.nombre}.pdf`, function (err, res) {
+                const option={
+                    "phantomPath": "./node_modules/phantomjs/bin/phantomjs", 
+                }
+                html_pdf.create(template, option).toFile(`C:/Users/andre/OneDrive/Escritorio/PDF-pruebas/${body.nombre}.pdf`, function (err, res) {
                     if (err) {
                         console.log(err);
                     } else {
