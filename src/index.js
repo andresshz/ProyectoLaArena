@@ -13,7 +13,7 @@ dotenv.config()
 
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
-const port = process.env.PORTU
+const port = process.env.PORT
 const app = express()
 
 
@@ -78,6 +78,9 @@ app.post('/logeo', Controller.login)
 app.post('/add', ControllerProductos.añadir)
 app.post('/buyConfirm', ControllerCompras.agregar)
 
+app.get('*', (req, res)=>{
+console.log('prueba')
+})
 app.listen(port, () => {
     console.log("Arrancando api!!!!" + port)
 })
