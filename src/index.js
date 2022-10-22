@@ -79,8 +79,9 @@ app.post('/add', ControllerProductos.añadir)
 app.post('/buyConfirm', ControllerCompras.agregar)
 
 app.get('*', (req, res)=>{
-console.log('prueba')
+    window.location.href = "/login";
 })
+
 app.listen(port, () => {
     console.log("Arrancando api!!!!" + port)
 })
