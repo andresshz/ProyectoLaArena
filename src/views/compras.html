@@ -18,9 +18,22 @@
   <body>
     <div class="d-flex">
       <div id="sidebar-container" class="bg-primary"></div>
-      <main>
+      <main style="width: 70%; margin: 0 auto;">
         <h2 style="width: 100%; text-align:center;" class="mt-5">Realizar Compra</h2>
-        <div id="productos" class="w-100 d-flex mt-2"></div>
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Nombre producto</th>
+              <th scope="col">Precio</th>
+              <th scope="col">Existencias</th>
+              <th scope="col">Cantidad</th>
+              <th scope="col">Opciones</th>
+            </tr>
+          </thead>
+          <tbody id="productos">
+          </tbody>
+        </table>
       </main>
     </div>
     <div class="d-flex">

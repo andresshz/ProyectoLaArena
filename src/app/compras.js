@@ -175,17 +175,15 @@ const obtener = async () => {
   respuesta.forEach((lista, i) => {
 
     const card = `
-    <div class="card" style="width: 16rem; height:18rem; margin-left:10%; margin-top:3%;">
-    <div class="card-body">
-      <h6 style="display: none;" id="titulo">${lista.nombre}</h6>
-      <h5 class="card-title"><b>Producto:</b> ${lista.nombre}</h5>
-      <h6 class="card-subtitle mb-2 text-muted"><b>Precio:</b> $ ${lista.precio}</h6>
-      <p class="card-text"><b>Disponibles:</b> ${lista.existencia}</p>
-      <label class="card-text">Cantidad:</label>
-      <input type="number" id="cantidad${lista.nombre}" min="0" step="1" class="form-control" /><br />
-      <button id="add${lista.nombre}" class="btn btn-primary" style="width:210px;" type="button">Agregar</button>
-    </div>
-   </div>
+    <h6 style="display: none;" id="titulo">${lista.nombre}</h6>
+   <tr>
+      <th scope="row">${i}</th>
+      <td>${lista.nombre}</td>
+      <td>$ ${lista.precio}</td>
+      <td>${lista.existencia}</td>
+      <td><input type="number" id="cantidad${lista.nombre}" min="0" step="1" class="form-control" /><br /></td>
+      <td><button id="add${lista.nombre}" class="btn btn-primary" style="width:210px;" type="button">Agregar</button></td>
+    </tr>
    `;
     listProduct += card
   })
