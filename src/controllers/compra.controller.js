@@ -6,7 +6,6 @@ dotenv.config()
 
 const actualizarSaldo = async (total) => {
 
-    try {
         const date = new Date()
         const saldoId = await Saldo.findById(process.env.ID)
         if(saldoId){
@@ -16,11 +15,6 @@ const actualizarSaldo = async (total) => {
             saldoId.fecha = date.toLocaleDateString()
             saldoId.save()
         }
-        console.log(saldoId)
-    } catch (e) {
-       return "Error";
-    }
-
 }
 
 const actualizar = async (nombres, cantidad, names, cantidadUnica) => {
@@ -76,6 +70,7 @@ const ControllerCompras = {
             res.status(200).send('exito')
         }
     }
+
 }
 
 export { ControllerCompras }
