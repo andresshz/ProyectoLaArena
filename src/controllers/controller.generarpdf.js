@@ -43,8 +43,9 @@ const Pdf = {
             })
             const sumaTotal = arrayTotal.reduce((a, b) => a + b)
             const sumaTotalDecimales = sumaTotal.toFixed(2);
-            if (compras) {
+            console.log(arrayTotal)
             console.log(compras)
+            if (compras) {
                 const template = `
                   <!doctype html>
     <html>
