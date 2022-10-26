@@ -1,5 +1,6 @@
 import html_pdf from 'html-pdf'
 import { Compra } from '../models/compra.model.js'
+import phantomPath from ''
 
 
 const funcionPdf = (compras = {}) => {
@@ -95,8 +96,8 @@ const Pdf = {
         </body>
     </html>      
                   `
-                
-                html_pdf.create(template).toFile(`C:/Users/andre/OneDrive/Escritorio/PDF-pruebas/${body.nombre}.pdf`, function (err, res) {
+                let OPTIONS = {phantomPath: './node_modules/phantomjs-prebuilt/lib/phantom/bin/phantomjs'};
+                html_pdf.create(template, OPTIONS).toFile(`C:/Users/andre/OneDrive/Escritorio/PDF-pruebas/${body.nombre}.pdf`, function (err, res) {
                     if (err) {
                         console.log(err);
                     } else {

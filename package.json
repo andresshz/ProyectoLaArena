@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "start": "node src/index.js",
-    "dev":"nodemon src/index.js"
+    "dev": "nodemon src/index.js"
   },
   "keywords": [],
   "author": "Andrés Fernández",
@@ -19,6 +19,7 @@
     "html-pdf": "^3.0.1",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.6.0",
+    "phantomjs": "^2.1.7",
     "sweetalert2": "^11.5.2",
     "uuid": "^9.0.0"
   },
