@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT"
+      crossorigin="anonymous"
+    />
+    <link
+      href="https://unpkg.com/ionicons@4.5.10-0/dist/css/ionicons.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="d-flex">
+      <div id="sidebar-container" class="bg-primary"></div>
+      <div style="width: 100%;">
+        <h3 style="text-align: center; margin-top: 5%; margin-bottom: 2%;">Pagos</h3>
+        <table style="width: 60%; margin: 0 auto" class="table table-hover">
+          <thead>
+            <tr>
+              <th style="text-align: center" scope="col">Pago</th>
+              <th style="text-align: center" scope="col">Cantidad</th>
+              <th style="text-align: center" scope="col">Opciones</th>
+              <th style="text-align: center" scope="col">$Total</th>
+              <th style="text-align: center" scope="col">#Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td scope="row">$20.00</td>
+              <td>
+                <input type="text" class="form-control" name="20" id="20" />
+              </td>
+              <td>
+                <button
+                  style="width: 100%"
+                  id="btn20"
+                  class="btn btn-primary"
+                  value="20"
+                >
+                  Agregar
+                </button>
+              </td>
+              <td><div id="total-20"></div></td>
+              <td><div id="20-total"></div></td>
+            </tr>
+            <tr>
+              <td scope="row">$10.00</td>
+              <td>
+                <input type="text" class="form-control" name="10" id="10" />
+              </td>
+              <td>
+                <button
+                  style="width: 100%"
+                  id="btn10"
+                  class="btn btn-primary"
+                  value="10"
+                >
+                  Agregar
+                </button>
+              </td>
+              <td><div id="total-10"></div></td>
+              <td><div id="10-total"></div></td>
+            </tr>
+            <tr>
+              <td scope="row">$5.00</td>
+              <td>
+                <input type="text" class="form-control" name="5" id="5" />
+              </td>
+              <td>
+                <button
+                  style="width: 100%"
+                  id="btn5"
+                  class="btn btn-primary"
+                  value="5"
+                >
+                  Agregar
+                </button>
+              </td>
+              <td><div id="total-5"></div></td>
+              <td><div id="5-total"></div></td>
+            </tr>
+            <tr>
+              <td scope="row">$1.00</td>
+              <td>
+                <input type="text" class="form-control" name="1" id="1" />
+              </td>
+              <td>
+                <button
+                  style="width: 100%"
+                  id="btn1"
+                  class="btn btn-primary"
+                  value="1"
+                >
+                  Agregar
+                </button>
+              </td>
+              <td><div id="total-1"></div></td>
+              <td><div id="1-total"></div></td>
+            </tr>
+            <tr>
+              <td scope="row">$0.25</td>
+              <td>
+                <input type="text" class="form-control" name="0.25" id="0.25" />
+              </td>
+              <td>
+                <button
+                  style="width: 100%"
+                  id="btn0.25"
+                  class="btn btn-primary"
+                  value="0.25"
+                >
+                  Agregar
+                </button>
+              </td>
+              <td><div id="total-0.25"></div></td>
+              <td><div id="0.25-total"></div></td>
+            </tr>
+            <tr>
+              <td scope="row">$0.10</td>
+              <td>
+                <input type="text" class="form-control" name="0.10" id="0.10" />
+              </td>
+              <td>
+                <button
+                  style="width: 100%"
+                  id="btn0.10"
+                  class="btn btn-primary"
+                  value="0.10"
+                >
+                  Agregar
+                </button>
+              </td>
+              <td><div id="total-0.10"></div></td>
+              <td><div id="0.10-total"></div></td>
+            </tr>
+            <tr>
+              <td scope="row">$0.05</td>
+              <td>
+                <input type="text" class="form-control" name="0.05" id="0.05" />
+              </td>
+              <td>
+                <button
+                  style="width: 100%"
+                  id="btn0.05"
+                  class="btn btn-primary"
+                  value="0.05"
+                >
+                  Agregar
+                </button>
+              </td>
+              <td><div id="total-0.05"></div></td>
+              <td><div id="0.05-total"></div></td>
+            </tr>
+            <tr>
+              <td scope="row">$0.01</td>
+              <td>
+                <input type="text" class="form-control" name="0.01" id="0.01" />
+              </td>
+              <td>
+                <button
+                  style="width: 100%"
+                  id="btn0.01"
+                  class="btn btn-primary"
+                  value="0.01"
+                >
+                  Agregar
+                </button>
+              </td>
+              <td><div id="total-0.01"></div></td>
+              <td><div id="0.01-total"></div></td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="d-flex">
+          <button
+          style="margin-left: 30%; margin-top: 2%;"
+          class="btn btn-primary"
+          id="btn-limpiar"
+        >
+          Limpiar
+        </button>
+        <div style="margin-top: 2%; margin-left: 3%;" id="SaldoFinal"></div>
+        </div>
+        
+      </div>
+    </div>
+  </body>
+  <script src="saldoPagos.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</html>

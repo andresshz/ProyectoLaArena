@@ -69,6 +69,11 @@ app.get('/produtosAdd', (req, res) => {
     res.sendFile(`${app.get('url')}/productosAñadidos.html`)
 })
 
+// * Saldo monedas
+app.get('/monedas', (req, res) => {
+    res.sendFile(`${app.get('url')}/saldoFinal.html`)
+})
+
 // * Login
 app.get('/login', (req, res) => {
     res.sendFile(`${app.get('url')}/login.html`)
