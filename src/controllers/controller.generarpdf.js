@@ -1,6 +1,5 @@
 import html_pdf from 'html-pdf'
 import { Compra } from '../models/compra.model.js'
-import phantomPath from ''
 
 
 const funcionPdf = (compras = {}) => {
