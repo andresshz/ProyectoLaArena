@@ -96,7 +96,7 @@ const Pdf = {
     </html>      
                   `
                 
-                html_pdf.create(template).toFile(`./${body.nombre}.pdf`, function (err, res) {
+                html_pdf.create(template).toFile(`C:/Users/andre/OneDrive/Escritorio/PDF-pruebas/${body.nombre}.pdf`, function (err, res) {
                     if (err) {
                         console.log(err);
                     } else {
