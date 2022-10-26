@@ -1,5 +1,5 @@
 function formato(texto) {
-    return texto.replace(/^(\d{4})-(\d{2})-(\d{2})$/g, '$3/$2/$1');
+    return texto.replace(/^(\d{4})-(\d{2})-(\d{2})$/g, '$2/$3/$1');
 }
 
 const validacionEmpty = (cadena) => {
@@ -19,7 +19,9 @@ const capturarFecha = () => {
         const nombrePdf = document.getElementById('nombre').value
         const fechaInput = document.getElementById('fecha')
         const fechaValor = fechaInput.value
+        console.log(fechaValor)
         const formatoFecha = formato(fechaValor)
+        console.log(formatoFecha)
         const emptyFecha = validacionEmpty(fechaValor)
         const emptyNombre = validacionEmpty(nombrePdf)
         if (emptyFecha === 'false') {
