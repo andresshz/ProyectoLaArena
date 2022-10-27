@@ -219,11 +219,24 @@ const templateMenu = () => {
   <a href="/pdf"><i class="icon ion-md-book" style="margin-right: 2%;"></i>Generar PDF</a>
   <a href="/productoAdd"><i class="icon ion-md-checkbox" style="margin-right: 2%;"></i>Añadir producto</a>
   <a href="/produtosAdd"><i class="icon ion-md-clipboard" style="margin-right: 2%;"></i>Administrar productos</a>
-  <a href="/inventario"><i class="icon ion-md-cash" style="margin-right: 2%;"></i></i>Administrar Inventario</a>
+  <a href="/inventario"><i class="icon ion-md-cash" style="margin-right: 2%;"></i>Administrar Inventario</a>
+  <a href="/monedas"><i class="icon ion-md-clipboard" style="margin-right: 2%;"></i>Cuadrar Caja</a>
+  <button style="margin-left:3%; width:70%; margin-top:10%;" class="btn btn-primary" id="cerrar"><i class="icon ion-md-contact"></i>Cerrar Sesión</button>
 </div>`
 
     const menu = document.getElementById('sidebar-container')
     menu.innerHTML = template
+
+}
+
+
+const cerrarSesion = () =>{
+
+    const btn = document.getElementById('cerrar')
+    btn.onclick = () =>{
+        window.location.href = "/login"
+        localStorage.removeItem('tokenSecreto');
+    }
 
 }
 
@@ -233,6 +246,7 @@ window.onload = () => {
     if (isLoged) {
         templateMenu()
         MostrarProductos()
+        cerrarSesion()
     } else {
         const body = document.getElementsByTagName('body')[0]
         body.innerHTML = 'No puede ver este contenido'

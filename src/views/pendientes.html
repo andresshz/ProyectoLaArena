@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT"
+      crossorigin="anonymous"
+    />
+    <link
+      href="https://unpkg.com/ionicons@4.5.10-0/dist/css/ionicons.min.css"
+      rel="stylesheet"
+    />
+    <link rel="icon" type="image/svg" href="logo.svg" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Agregar pendientes</title>
+  </head>
+  <body>
+    <div class="d-flex">
+      <div id="sidebar-container" class="bg-primary"></div>
+      <div style="width: 100%">
+        <form id="formulario" style="width: 40%; margin: 0 auto">
+          <h3 style="text-align: center; margin-top: 15%; margin-bottom: 5%;">Pendientes de pago</h3>
+          <div class="mb-3">
+            <label class="form-label">Agregar nombre de la persona: </label>
+            <input type="text" class="form-control" id="nombre" name="nombre" />
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Descripción de compra: </label>
+              <textarea
+                class="form-control"
+                id="descripcion" name="descripcion"
+              ></textarea>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Agregar precio a pagar: </label>
+            <input type="text" class="form-control" id="precio" name="precio" />
+          </div>
+
+          <button
+            style="width: 100%; margin-top: 3%"
+            class="btn btn-success"
+            type="submit"
+            id="btn-pendientes"
+          >
+            Agregar pendiente
+          </button>
+        </form>
+      </div>
+    </div>
+  </body>
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="pendientes.js"></script>
+</html>

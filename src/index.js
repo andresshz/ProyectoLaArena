@@ -24,6 +24,7 @@ app.set('views', __dirname)
 app.use(express.json())
 app.use(express.static('src/app'))
 app.use(express.static('src/style'))
+app.use(express.static('src/images'))
 app.set('url', join(app.get('views'), `${'views'}`))
 
 // * Agregar productos
@@ -67,6 +68,10 @@ app.get('/inventario', (req, res) => {
 // * Productos añadidos
 app.get('/produtosAdd', (req, res) => {
     res.sendFile(`${app.get('url')}/productosAñadidos.html`)
+})
+// * Pendientes
+app.get('/pendientes', (req, res) => {
+    res.sendFile(`${app.get('url')}/pendientes.html`)
 })
 
 // * Saldo monedas
