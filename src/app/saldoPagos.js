@@ -25,16 +25,17 @@ const calcularPagos = () => {
         const suma = []
         const boton = document.getElementById('btn' + elemento)
         boton.onclick = () => {
+            
+            let input = document.getElementById(elemento).value
+            const empty = validacionEmpty(input)
+            const numero = numberValidate(input)
+            if (empty === 'false' || numero === 'false') {
+                Swal.fire('Rellenar el campo y/o ingrese solo números!!!')
+                return;
+            }
             const value = boton.value
             if (elemento === '0.25' || elemento === '0.10' || elemento === '0.25' || elemento === '0.05' || elemento === '0.01') {
                 const valorFloat = Number.parseFloat(value)
-                const input = document.getElementById(elemento).value
-                const numero = numberValidate(input)
-                const empty = validacionEmpty(input)
-                if (numero === 'false' && empty === 'false') {
-                    Swal.fire('Rellenar el campo, y/o ingresar solo números')
-                    return;
-                }
                 const inputEntero = Number.parseInt(input, 10)
                 arrayTotal.push(inputEntero)
                 suma.push(valorFloat * inputEntero)
@@ -54,7 +55,6 @@ const calcularPagos = () => {
             } else {
 
                 const valorEntero = Number.parseInt(value, 10)
-                const input = document.getElementById(elemento).value
                 const inputEntero = Number.parseInt(input, 10)
                 arrayTotal.push(inputEntero)
                 suma.push(valorEntero * inputEntero)
