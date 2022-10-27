@@ -44,8 +44,9 @@ const calcularPagos = () => {
                 const cantidad = document.getElementById(elemento + '-total')
                 cantidad.innerHTML = `<h5>#${sumaCantidad}</h5>`
                 const suma_total = suma.reduce((a, b) => a + b);
+                const suma_decimales =  suma_total.toFixed(2)
                 const div = document.getElementById('total-' + value)
-                div.innerHTML = `<h5>$ ${suma_total}</h5>`
+                div.innerHTML = `<h5>$ ${suma_decimales}</h5>`
 
                 arrayPrecio.push(suma_total)
                 const totalPrecio = arrayPrecio.reduce((a, b) => a + b);
