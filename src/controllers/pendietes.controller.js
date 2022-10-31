@@ -31,7 +31,7 @@ const PendientesController = {
                    <tr>
                    <td>${elemento.nombre}</td>
                    <td>${elemento.descripcion}</td>
-                   <td>${elemento.total}</td>
+                   <td>$${elemento.total}</td>
                    <td>${elemento.fecha}</td>
                    <td><button id="btn-delete${posicion}" value="${elemento._id}" class="btn btn-danger"><i class="icon ion-md-trash"></i></button></td>
                    </tr>
