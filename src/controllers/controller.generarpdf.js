@@ -33,7 +33,6 @@ const Pdf = {
     generar: async (req, res) => {
         try {
 
-            const nombrePdf = 'hola_mundo'
             const { body } = req
             console.log(body.fecha)
             const compras = await Compra.find({ fecha: body.fecha })

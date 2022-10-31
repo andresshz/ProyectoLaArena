@@ -13,19 +13,14 @@ const numberValidate = (cadena) => {
         return "false";
     }
 }
-
-const calcularPagos = () => {
-
-    const preciosArray = ['20', '10', '5', '1', '0.25', '0.10', '0.05', '0.01']
-
-    const arrayPrecio = []
+const cuadrar = (preciosArray = []) => {
+    const arrayTotal = []
+    const suma = []
 
     preciosArray.map((elemento) => {
-        const arrayTotal = []
-        const suma = []
         const boton = document.getElementById('btn' + elemento)
         boton.onclick = () => {
-            
+
             let input = document.getElementById(elemento).value
             const empty = validacionEmpty(input)
             const numero = numberValidate(input)
@@ -44,15 +39,12 @@ const calcularPagos = () => {
                 const cantidad = document.getElementById(elemento + '-total')
                 cantidad.innerHTML = `<h5>#${sumaCantidad}</h5>`
                 const suma_total = suma.reduce((a, b) => a + b);
-                const suma_decimales =  suma_total.toFixed(2)
+                const suma_decimales = suma_total.toFixed(2)
                 const div = document.getElementById('total-' + value)
                 div.innerHTML = `<h5>$ ${suma_decimales}</h5>`
 
-                arrayPrecio.push(suma_total)
-                const totalPrecio = arrayPrecio.reduce((a, b) => a + b);
-                const finalPrecio = totalPrecio.toFixed(2)
                 const saldoFinal = document.getElementById('SaldoFinal')
-                saldoFinal.innerHTML = `<h4 style="width:100%; text-align:center;">Total efectivo: $ ${finalPrecio} </h4>`
+                saldoFinal.innerHTML = `<h4 style="width:100%; text-align:center;">Total efectivo: $ ${suma_decimales} </h4>`
             } else {
 
                 const valorEntero = Number.parseInt(value, 10)
@@ -67,22 +59,24 @@ const calcularPagos = () => {
                 const div = document.getElementById('total-' + value)
                 div.innerHTML = `<h5>$ ${suma_total}</h5>`
 
-                arrayPrecio.push(suma_total)
-                const totalPrecio = arrayPrecio.reduce((a, b) => a + b);
                 const saldoFinal = document.getElementById('SaldoFinal')
-                saldoFinal.innerHTML = ` <h4 style="width:100%; text-align:center;">Total efectivo: $ ${totalPrecio} </h4>`
+
+                saldoFinal.innerHTML = ` <h4 style="width:100%; text-align:center;">Total efectivo: $ ${suma_total} </h4>`
 
             }
 
         }
     })
+}
+const calcularPagos = () => {
+
+    const preciosArray = ['20', '10', '5', '1', '0.25', '0.10', '0.05', '0.01']
+    cuadrar(preciosArray)
 
 }
 
 const btnLimpiar = () => {
     const preciosArray = ['20', '10', '5', '1', '0.25', '0.10', '0.05', '0.01']
-
-
     const btn = document.getElementById('btn-limpiar')
     btn.onclick = () => {
         preciosArray.map((elemento) => {
@@ -115,10 +109,10 @@ const templateMenu = () => {
 }
 
 
-const cerrarSesion = () =>{
+const cerrarSesion = () => {
 
     const btn = document.getElementById('cerrar')
-    btn.onclick = () =>{
+    btn.onclick = () => {
         window.location.href = "/login"
         localStorage.removeItem('tokenSecreto');
     }

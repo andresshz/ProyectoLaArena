@@ -5,6 +5,7 @@ import { ControllerCompras } from './controllers/compra.controller.js';
 import { Compras } from './controllers/controller.comprasRealizadas.js';
 import { Inventario } from './controllers/controller.inventario.js';
 import { Pdf } from './controllers/controller.generarpdf.js';
+import { PendientesController } from './controllers/pendietes.controller.js';
 import mongoose from "mongoose";
 import dotenv from 'dotenv';
 import { dirname, join } from 'path';
@@ -34,6 +35,7 @@ app.get('/productoAdd', (req,res)=>{
 
 // * Mostrar productos
 app.get('/showProduct', ControllerProductos.obtener)
+app.get('/mostrarPendientes', PendientesController.obtener)
 // * Mostrar Compras
 app.get('/showCompras', Compras.obtener)
 // * Mostrar saldo
@@ -44,6 +46,8 @@ app.post('/confirmarModificacion',ControllerProductos.modificar)
 app.post('/modificarInventario',Inventario.Modificar)
 app.post('/eliminarCompra', ControllerCompras.eliminar)
 app.post('/pdfCompra', Pdf.generar)
+app.post('/agregarPendiente', PendientesController.agregar)
+app.post('/eliminarPendiente', PendientesController.eliminar)
 //Eliminar Producto
 app.post('/DeleteProducto',ControllerProductos.eliminar)
 
@@ -69,11 +73,11 @@ app.get('/inventario', (req, res) => {
 app.get('/produtosAdd', (req, res) => {
     res.sendFile(`${app.get('url')}/productosAñadidos.html`)
 })
-// * Pendientes
-app.get('/pendientes', (req, res) => {
-    res.sendFile(`${app.get('url')}/pendientes.html`)
-})
 
+// * Mostrar Pendiente
+app.get('/pendientes', (req, res) => {
+    res.sendFile(`${app.get('url')}/mostrarPendientes.html`)
+})
 // * Saldo monedas
 app.get('/monedas', (req, res) => {
     res.sendFile(`${app.get('url')}/saldoFinal.html`)

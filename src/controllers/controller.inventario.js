@@ -51,7 +51,7 @@ const Inventario = {
             const inventario = await Saldo.findById(body._id)
             if (inventario) {
                 inventario.saldo = body.saldo
-                inventario.fecha = date.toLocaleDateString()
+                inventario.fecha = date.toLocaleDateString('es-MX', { timeZone: "America/El_Salvador" })
                 inventario.save()
                 res.status(200).send('exito')
             }

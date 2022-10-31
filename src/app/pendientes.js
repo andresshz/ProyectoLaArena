@@ -33,20 +33,86 @@ const validateEspacios = (cadena) => {
         return string;
     }
 }
+const EliminarPendiente = async (posicion = []) => {
+    for (let i = 0; i < posicion.length; i++) {
+        const btn = document.getElementById('btn-delete' + posicion[i])
+        btn.onclick = async () => {
+            Swal.fire({
+                title: 'Realmente desea eliminar este pendiente?',
+                text: "El pendiente se eliminara completamente en la base de datos.",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Confirmar'
+            }).then(async (result) => {
+                if (result.isConfirmed) {
+                    const btnValue = btn.value
+                    const bodyjson = {
+                        '_id': btnValue
+                    }
+                    const requestDelete = await fetch('/eliminarPendiente', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(bodyjson)
+                    })
 
-const addForm = () =>{
+                    const respuesta = await requestDelete.text()
+                    if (respuesta === 'Exito') {
+                        Swal.fire(
+                            'Eliminado!',
+                            'El pendiente ha sido eliminado correctamente.',
+                            'success'
+                        ).then((result) => {
+                            if (result.isConfirmed) {
+                                location.reload()
+                            }
+                        })
 
+                    }
+                }
+            })
+            return;
 
-    const form = document.getElementById('formulario')
+        }
 
-    form.onsubmit = (e) =>{
-        e.preventDefault()
-        
+    }
+
+}
+
+const obtener = async () => {
+
+    const request = await fetch('/mostrarPendientes', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+
+    const responses = await request.json()
+
+    const array = responses.posicion
+    const tbody = document.getElementById('tbody')
+    tbody.innerHTML = responses.template
+
+    //Delete pendientes
+
+    EliminarPendiente(array)
+
+}
+
+const addForm = () => {
+
+    const btn = document.getElementById('btn-pendientes')
+    btn.onclick = async () => {
+
         const nombre = document.getElementById('nombre').value
         const descripcion = document.getElementById('descripcion').value
         const precio = document.getElementById('precio').value
-        
-        const empty = validacionEmpty(nombre, descripcion , precio)
+        const json = { 'nombre': nombre, 'descripcion': descripcion, 'precio': precio }
+        const empty = validacionEmpty(nombre, descripcion, precio)
         const string = validateEspacios(nombre)
         const numero = numberValidate(precio)
         //Empty: Todos los campos
@@ -55,19 +121,44 @@ const addForm = () =>{
             return;
         }
         //String : nombre
-        if(string === "false"){
+        if (string === "false") {
             Swal.fire('Ingrese el campo correcto para el nombre')
             return;
         }
         //Number : precio
-        if(numero === "false"){
+        if (numero === "false") {
             Swal.fire('Ingrese el campo correcto para el precio')
             return;
         }
 
-        const formData = new FormData(form)
-        const dataForm = Object.fromEntries(formData.entries())
-        console.log(dataForm)
+        // const formData = new FormData(form)
+        // const dataForm = Object.fromEntries(formData.entries())
+
+        const resquest = await fetch('/agregarPendiente', {
+            method: 'POST',
+            body: JSON.stringify(json),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+
+        const responses = await resquest.text()
+
+        if (responses === 'Exito') {
+            Swal.fire({
+                title: 'Pendiente agregado correctamente',
+                icon: 'success',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'OK'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    nombre.value = ' '
+                    descripcion.value = ' '
+                    precio.value = ' '
+                    location.reload()
+                }
+            })
+        }
 
     }
 }
@@ -86,32 +177,33 @@ const templateMenu = () => {
   <a href="/monedas"><i class="icon ion-md-clipboard" style="margin-right: 2%;"></i>Cuadrar Caja</a>
   <button style="margin-left:3%; width:70%; margin-top:10%;" class="btn btn-primary" id="cerrar"><i class="icon ion-md-contact"></i>Cerrar Sesión</button>
   </div>`
-  
+
     const menu = document.getElementById('sidebar-container')
     menu.innerHTML = template
-  
-  }
-  
-  
-  const cerrarSesion = () =>{
-  
+
+}
+
+
+const cerrarSesion = () => {
+
     const btn = document.getElementById('cerrar')
-    btn.onclick = () =>{
+    btn.onclick = () => {
         window.location.href = "/login"
         localStorage.removeItem('tokenSecreto');
     }
-  
-  }
-  
-  const checkLogin = () => localStorage.getItem('tokenSecreto')
-  window.onload = () => {
+
+}
+
+const checkLogin = () => localStorage.getItem('tokenSecreto')
+window.onload = () => {
     const isLoged = checkLogin()
     if (isLoged) {
-      templateMenu()
-      cerrarSesion()
-      addForm()
+        templateMenu()
+        addForm()
+        obtener()
+        cerrarSesion()
     } else {
-      const body = document.getElementsByTagName('body')[0]
-      body.innerHTML = 'No puede ver este contenido'
+        const body = document.getElementsByTagName('body')[0]
+        body.innerHTML = 'No puede ver este contenido'
     }
-  }
+}

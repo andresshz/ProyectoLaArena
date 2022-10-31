@@ -6,21 +6,21 @@ dotenv.config()
 
 const actualizarSaldo = async (total) => {
 
-        const date = new Date()
-        const saldoId = await Saldo.findById(process.env.ID)
-        if(saldoId){
-            const saldoBase = saldoId.saldo 
-            const suma = saldoBase + total
-            saldoId.saldo = suma
-            saldoId.fecha = date.toLocaleDateString()
-            saldoId.save()
-        }
+    const date = new Date()
+    const saldoId = await Saldo.findById(process.env.ID)
+    if (saldoId) {
+        const saldoBase = saldoId.saldo
+        const suma = saldoBase + total
+        saldoId.saldo = suma
+        saldoId.fecha = date.toLocaleDateString('es-MX', { timeZone: "America/El_Salvador" })
+        saldoId.save()
+    }
 }
 
 const actualizar = async (nombres, cantidad, names, cantidadUnica) => {
 
     const nombresLength = nombres.length;
-    
+
     if (nombresLength > 1) {
         for (let i = 0; i < nombresLength.length; i++) {
             const productoActu = await Producto.findOne({ nombre: nombres[i] });
@@ -54,7 +54,7 @@ const ControllerCompras = {
         //Actualizar saldo...
         const actuSaldo = await actualizarSaldo(body.total)
         //Crear compra
-        const create = await Compra.create({ nombreCompra: body.nombreCompra, total: body.total, fecha: date.toLocaleDateString() })
+        const create = await Compra.create({ nombreCompra: body.nombreCompra, total: body.total, fecha: date.toLocaleDateString('es-MX', { timeZone: "America/El_Salvador" }) })
         if (create) {
             res.status(200).send('Exito')
         }
