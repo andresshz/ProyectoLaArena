@@ -16,11 +16,15 @@ const numberValidate = (cadena) => {
 const cuadrar = (preciosArray = []) => {
 
     const saldosFinales = []
+
     preciosArray.map((elemento) => {
         const arrayTotal = []
-        
+
         const suma = []
         const boton = document.getElementById('btn' + elemento)
+        let sumaCantidad = ' '
+        let suma_total = ' '
+
         boton.onclick = () => {
 
             let input = document.getElementById(elemento).value
@@ -37,37 +41,41 @@ const cuadrar = (preciosArray = []) => {
                 arrayTotal.push(inputEntero)
                 suma.push(valorFloat * inputEntero)
 
-                const sumaCantidad = arrayTotal.reduce((a, b) => a + b)
+                sumaCantidad = arrayTotal.reduce((a, b) => a + b)
                 const cantidad = document.getElementById(elemento + '-total')
                 cantidad.innerHTML = `<h5>#${sumaCantidad}</h5>`
-                const suma_total = suma.reduce((a, b) => a + b);
+                suma_total = suma.reduce((a, b) => a + b);
                 const suma_decimales = suma_total.toFixed(2)
                 const div = document.getElementById('total-' + value)
                 div.innerHTML = `<h5>$ ${suma_decimales}</h5>`
 
-                saldosFinales.push(suma_decimales)
+                saldosFinales.push(valorFloat * inputEntero)
                 const saldoTotal = saldosFinales.reduce((a, b) => a + b);
                 const saldoFinal = document.getElementById('SaldoFinal')
-                saldoFinal.innerHTML = `<h4 style="width:100%; text-align:center;">Total efectivo: $ ${saldoTotal} </h4>`
+                saldoFinal.innerHTML = `<h4 style="width:100%; text-align:center;">Total efectivo: $ ${suma_decimales} </h4>`
+
             } else {
 
                 const valorEntero = Number.parseInt(value, 10)
                 const inputEntero = Number.parseInt(input, 10)
                 arrayTotal.push(inputEntero)
                 suma.push(valorEntero * inputEntero)
-                const sumaCantidad = arrayTotal.reduce((a, b) => a + b)
+                sumaCantidad = arrayTotal.reduce((a, b) => a + b)
                 const cantidad = document.getElementById(elemento + '-total')
                 cantidad.innerHTML = `<h5>#${sumaCantidad}</h5>`
-                const suma_total = suma.reduce((a, b) => a + b);
+                suma_total = suma.reduce((a, b) => a + b);
+
+                saldosFinales.push(valorEntero * inputEntero)
 
                 const div = document.getElementById('total-' + value)
                 div.innerHTML = `<h5>$ ${suma_total}</h5>`
-
-                saldosFinales.push(suma_total)
+            
                 const saldoTotal = saldosFinales.reduce((a, b) => a + b);
                 const saldoFinal = document.getElementById('SaldoFinal')
-
+                
                 saldoFinal.innerHTML = ` <h4 style="width:100%; text-align:center;">Total efectivo: $ ${saldoTotal} </h4>`
+                
+            
 
             }
 
