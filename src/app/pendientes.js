@@ -115,6 +115,7 @@ const addForm = () => {
         const empty = validacionEmpty(nombre, descripcion, precio)
         const string = validateEspacios(nombre)
         const numero = numberValidate(precio)
+        console.log(numero)
         //Empty: Todos los campos
         if (empty === 'false') {
             Swal.fire('Rellene el campo vacio porfavor!!!')

@@ -35,7 +35,7 @@ const cuadrar = (preciosArray = []) => {
                 return;
             }
             const value = boton.value
-            if (elemento === '0.25' || elemento === '0.10' || elemento === '0.25' || elemento === '0.05' || elemento === '0.01') {
+            if (elemento === '0.01' || elemento === '0.25' || elemento === '0.10' || elemento === '0.25' || elemento === '0.05' ) {
                 const valorFloat = Number.parseFloat(value)
                 const inputEntero = Number.parseInt(input, 10)
                 arrayTotal.push(inputEntero)
@@ -51,8 +51,9 @@ const cuadrar = (preciosArray = []) => {
 
                 saldosFinales.push(valorFloat * inputEntero)
                 const saldoTotal = saldosFinales.reduce((a, b) => a + b);
+                const saldoTotalDecimales = saldoTotal.toFixed(2)
                 const saldoFinal = document.getElementById('SaldoFinal')
-                saldoFinal.innerHTML = `<h4 style="width:100%; text-align:center;">Total efectivo: $ ${suma_decimales} </h4>`
+                saldoFinal.innerHTML = `<h4 style="width:100%; text-align:center;">Total efectivo: $ ${saldoTotalDecimales} </h4>`
 
             } else {
 

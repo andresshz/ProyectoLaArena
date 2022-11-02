@@ -8,6 +8,7 @@ const PendientesController = {
 
         try {
             const { body } = req
+            console.log(body.precio)
             const date = new Date()
             const agregarPendiete = await Pendientes.create({ nombre: body.nombre, descripcion: body.descripcion, total: body.precio, fecha: date.toLocaleDateString('es-MX', { timeZone: "America/El_Salvador" }) })
             if (agregarPendiete) {
