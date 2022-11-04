@@ -128,7 +128,7 @@ const Pdf = {
           </html>      
                         `
 
-            const filepath = `C:/Users/andre/OneDrive/Escritorio/PDF-pruebas/${body.nombre}.html`;
+            const filepath = `C:\Users\andre\OneDrive\Escritorio\PDF-pruebas\ ${body.nombre}.html`;
 
             fs.writeFile(filepath, fileContent, (err) => {
                 if (err) throw err;
