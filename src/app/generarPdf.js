@@ -19,9 +19,9 @@ const capturarFecha = () => {
         const nombrePdf = document.getElementById('nombre').value
         const fechaInput = document.getElementById('fecha')
         const fechaValor = fechaInput.value
-        console.log(fechaValor)
+
         const formatoFecha = formato(fechaValor)
-        console.log(formatoFecha)
+
         const emptyFecha = validacionEmpty(fechaValor)
         const emptyNombre = validacionEmpty(nombrePdf)
         if (emptyFecha === 'false') {
@@ -33,39 +33,52 @@ const capturarFecha = () => {
             return;
         }
         const json = { 'fecha': formatoFecha, nombre: nombrePdf }
-        const request = await fetch('/pdfCompra', {
+        //Crear HTML
+        const requestHtml = await fetch('/pdfHtml', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(json)
         })
+        const responsesHtml = await requestHtml.text()
+        console.log(responsesHtml)
+        if (responsesHtml === 'exito') {
+            const request = await fetch('/pdfCompra', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(json)
+            })
 
-        const responses = await request.text()
-        console.log(responses)
-        if (responses === 'exito') {
-            Swal.fire({
-                title: 'PDF generado correctamente!!!',
-                icon: 'success',
-                confirmButtonColor: '#3085d6',
-                confirmButtonText: 'OK'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    location.reload()
-                }
-            })
-        } else if (responses === 'Error') {
-            Swal.fire({
-                title: 'No se encontraron registros en esta fecha!!',
-                icon: 'warning',
-                confirmButtonColor: '#3085d6',
-                confirmButtonText: 'OK'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    location.reload()
-                }
-            })
+            const responses = await request.text()
+
+            if (responses === 'exito') {
+                Swal.fire({
+                    title: 'PDF generado correctamente!!!',
+                    icon: 'success',
+                    confirmButtonColor: '#3085d6',
+                    confirmButtonText: 'OK'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        location.reload()
+                    }
+                })
+            } else if (responses === 'Error') {
+                Swal.fire({
+                    title: 'No se encontraron registros en esta fecha!!',
+                    icon: 'warning',
+                    confirmButtonColor: '#3085d6',
+                    confirmButtonText: 'OK'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        location.reload()
+                    }
+                })
+            }
         }
+
     }
 }
 
@@ -91,10 +104,10 @@ const templateMenu = () => {
 }
 
 
-const cerrarSesion = () =>{
+const cerrarSesion = () => {
 
     const btn = document.getElementById('cerrar')
-    btn.onclick = () =>{
+    btn.onclick = () => {
         window.location.href = "/login"
         localStorage.removeItem('tokenSecreto');
     }

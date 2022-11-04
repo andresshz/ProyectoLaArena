@@ -46,6 +46,7 @@ app.post('/confirmarModificacion',ControllerProductos.modificar)
 app.post('/modificarInventario',Inventario.Modificar)
 app.post('/eliminarCompra', ControllerCompras.eliminar)
 app.post('/pdfCompra', Pdf.generar)
+app.post('/pdfHtml', Pdf.crearHtml)
 app.post('/agregarPendiente', PendientesController.agregar)
 app.post('/eliminarPendiente', PendientesController.eliminar)
 //Eliminar Producto
