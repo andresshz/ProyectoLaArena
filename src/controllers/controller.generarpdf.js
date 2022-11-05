@@ -42,12 +42,12 @@ const Pdf = {
 
             if (compras) {
 
-                    const content = fs.readFileSync(`C:/Users/andre/OneDrive/Escritorio/PDF-pruebas/${body.nombre}.html`, 'utf-8')
+                    const content = fs.readFileSync(`C:\Users\andre\OneDrive\Escritorio\PDF-pruebas\ ${body.nombre}.html`, 'utf-8')
                     const browser = await puppeteer.launch()
                     const page = await browser.newPage()
                     await page.setContent(content)
                     const options = {
-                        path: `C:/Users/andre/OneDrive/Escritorio/PDF-pruebas/${body.nombre}PDF.pdf`,
+                        path: `C:\Users\andre\OneDrive\Escritorio\PDF-pruebas\ ${body.nombre}PDF.pdf`,
                         format: 'A4',
                     };
 
@@ -128,7 +128,7 @@ const Pdf = {
           </html>      
                         `
 
-            const filepath = `C:/Users/andre/OneDrive/Escritorio/PDF-pruebas/${body.nombre}.html`;
+            const filepath = `C:\Users\andre\OneDrive\Escritorio\PDF-pruebas\ ${body.nombre}.html`;
 
             fs.writeFile(filepath, fileContent, (err) => {
                 if (err) throw err;
