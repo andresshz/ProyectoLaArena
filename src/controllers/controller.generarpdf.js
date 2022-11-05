@@ -62,7 +62,7 @@ const Pdf = {
                 res.status(500).send('Error')
             }
         } catch (e) {
-            res.status(500).send('Error')
+            res.status(500).send(e)
         }
     },
 
@@ -128,7 +128,7 @@ const Pdf = {
           </html>      
                         `
 
-            const filepath = `C:\Users\andre\OneDrive\Escritorio\PDF-pruebas\ ${body.nombre}.html`;
+            const filepath = `C:/Users/andre/OneDrive/Escritorio/PDF-pruebas/${body.nombre}.html`;
 
             fs.writeFile(filepath, fileContent, (err) => {
                 if (err) throw err;
