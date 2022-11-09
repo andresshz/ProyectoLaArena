@@ -3,14 +3,16 @@ import { jsPDF } from 'jspdf'
 import autoTable from 'jspdf-autotable'
 import { Compra } from '../models/compra.model.js'
 
-
+const validarBoton = (obj) => {
+    return Object.keys(obj).length === 0
+}
 const funcionPdf = (compras = {}) => {
 
     const array = []
-    compras.forEach((elemento, posicion)=>{
-       let arreglo = []
-       arreglo.push(elemento.nombreCompra, elemento.total, elemento.fecha)
-       array.push(arreglo)
+    compras.forEach((elemento, posicion) => {
+        let arreglo = []
+        arreglo.push(elemento.nombreCompra, "$ "+elemento.total, elemento.fecha)
+        array.push(arreglo)
 
     })
     return array;
@@ -25,6 +27,12 @@ const Pdf = {
             const { body } = req
 
             const compras = await Compra.find({ fecha: body.fecha })
+            const validarBtn = validarBoton(compras)
+            console.log(validarBtn)
+            if (validarBtn === true) {
+                res.status(500).send({ respuesta: 'Error' })
+                return;
+            }
             if (compras) {
                 const doc = new jsPDF();
                 doc.setFontSize(20);
