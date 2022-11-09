@@ -1,4 +1,5 @@
 import express from 'express'
+import { jsPDF } from 'jspdf';
 import { Controller, isAuthenticated } from './controllers/controller.user.js';
 import { ControllerProductos } from './controllers/controller.productos.js';
 import { ControllerCompras } from './controllers/compra.controller.js';
@@ -6,6 +7,8 @@ import { Compras } from './controllers/controller.comprasRealizadas.js';
 import { Inventario } from './controllers/controller.inventario.js';
 import { Pdf } from './controllers/controller.generarpdf.js';
 import { PendientesController } from './controllers/pendietes.controller.js';
+import { ControllerCuadrar } from './controllers/cuadrar.controller.js';
+import { variables } from './controllers/dependencias.js';
 import mongoose from "mongoose";
 import dotenv from 'dotenv';
 import { dirname, join } from 'path';
@@ -29,7 +32,7 @@ app.use(express.static('src/images'))
 app.set('url', join(app.get('views'), `${'views'}`))
 
 // * Agregar productos
-app.get('/productoAdd', (req,res)=>{
+app.get('/productoAdd', (req, res) => {
     res.sendFile(`${app.get('url')}/productos.html`)
 })
 
@@ -42,23 +45,27 @@ app.get('/showCompras', Compras.obtener)
 app.get('/saldoInventario', Inventario.obtener)
 app.post('/price', ControllerProductos.obtenerId)
 app.post('/saldoId', Inventario.obtenerbyId)
-app.post('/confirmarModificacion',ControllerProductos.modificar)
-app.post('/modificarInventario',Inventario.Modificar)
+app.post('/confirmarModificacion', ControllerProductos.modificar)
+app.post('/modificarInventario', Inventario.Modificar)
 app.post('/eliminarCompra', ControllerCompras.eliminar)
+
+
+
 app.post('/pdfCompra', Pdf.generar)
-app.post('/pdfHtml', Pdf.crearHtml)
+
+app.post('/agregarCuadrar', ControllerCuadrar.guardar)
 app.post('/agregarPendiente', PendientesController.agregar)
 app.post('/eliminarPendiente', PendientesController.eliminar)
 //Eliminar Producto
-app.post('/DeleteProducto',ControllerProductos.eliminar)
+app.post('/DeleteProducto', ControllerProductos.eliminar)
 
 // * Realizar compra
 app.get('/administracion', (req, res) => {
     res.sendFile(`${app.get('url')}/compras.html`)
 })
 
-// * Generar PDF 
-app.get('/pdf', (req, res) => {
+
+app.get('/generatePdf', (req, res) => {
     res.sendFile(`${app.get('url')}/generarPdf.html`)
 })
 
@@ -66,6 +73,7 @@ app.get('/pdf', (req, res) => {
 app.get('/comprasRealizadas', (req, res) => {
     res.sendFile(`${app.get('url')}/comprasRealizadas.html`)
 })
+
 // * Inventario
 app.get('/inventario', (req, res) => {
     res.sendFile(`${app.get('url')}/inventario.html`)
@@ -75,6 +83,9 @@ app.get('/produtosAdd', (req, res) => {
     res.sendFile(`${app.get('url')}/productosAñadidos.html`)
 })
 
+app.get('/crearPdf', (req, res) => {
+    res.sendFile(`${app.get('url')}/crearPdf.html`)
+})
 // * Mostrar Pendiente
 app.get('/pendientes', (req, res) => {
     res.sendFile(`${app.get('url')}/mostrarPendientes.html`)
@@ -94,9 +105,9 @@ app.post('/logeo', Controller.login)
 app.post('/add', ControllerProductos.añadir)
 app.post('/buyConfirm', ControllerCompras.agregar)
 
-app.get('*', (req, res)=>{
-    res.redirect('/login')
-})
+// app.get('*',(req, res)=>{
+//     res.redirect('/login')
+// })
 
 app.listen(port, () => {
     console.log("Arrancando api!!!!" + port)

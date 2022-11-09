@@ -1,3 +1,14 @@
+const validarBoton = (obj) => {
+    return Object.keys(obj).length === 0
+}
+
+const generarPDF = () => {
+    const doc = new jsPDF();
+    doc.setFontSize(22)
+    doc.text('ejemplo', 20, 10)
+    doc.save('registro.pdf')
+    console.log('xd')
+}
 function formato(texto) {
     return texto.replace(/^(\d{4})-(\d{2})-(\d{2})$/g, '$3/$2/$1');
 }
@@ -11,7 +22,6 @@ const validacionEmpty = (cadena) => {
     }
 }
 const capturarFecha = () => {
-
 
     const formulario = document.getElementById('form')
     formulario.onsubmit = async (e) => {
@@ -32,56 +42,46 @@ const capturarFecha = () => {
             Swal.fire('Porfavor rellene los campos vacios!!!!')
             return;
         }
+        
         const json = { 'fecha': formatoFecha, nombre: nombrePdf }
-        //Crear HTML
-        const requestHtml = await fetch('/pdfHtml', {
+
+        const request = await fetch('/pdfCompra', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(json)
         })
-        const responsesHtml = await requestHtml.text()
-        console.log(responsesHtml)
-        if (responsesHtml === 'exito') {
-            const request = await fetch('/pdfCompra', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(json)
+
+        const responses = await request.json()
+
+        if (responses.respuesta === 'exito') {
+            Swal.fire({
+                title: 'PDF creado con exito.',
+                icon: 'success',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'OK'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    location.reload()
+                }
             })
-
-            const responses = await request.text()
-
-            if (responses === 'exito') {
-                Swal.fire({
-                    title: 'PDF generado correctamente!!!',
-                    icon: 'success',
-                    confirmButtonColor: '#3085d6',
-                    confirmButtonText: 'OK'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        location.reload()
-                    }
-                })
-            } else if (responses === 'Error') {
-                Swal.fire({
-                    title: 'No se encontraron registros en esta fecha!!',
-                    icon: 'warning',
-                    confirmButtonColor: '#3085d6',
-                    confirmButtonText: 'OK'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        location.reload()
-                    }
-                })
-            }
+        } else if (responses === 'Error') {
+            Swal.fire({
+                title: 'No se encontraron registros en esta fecha!!',
+                icon: 'warning',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'OK'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    location.reload()
+                }
+            })
         }
+
 
     }
 }
-
 
 const templateMenu = () => {
     const template = `<div class="logo">
@@ -95,14 +95,14 @@ const templateMenu = () => {
   <a href="/produtosAdd"><i class="icon ion-md-clipboard" style="margin-right: 2%;"></i>Administrar productos</a>
   <a href="/inventario"><i class="icon ion-md-cash" style="margin-right: 2%;"></i>Administrar Inventario</a>
   <a href="/monedas"><i class="icon ion-md-clipboard" style="margin-right: 2%;"></i>Cuadrar Caja</a>
+  <a href="/pendientes"><i class="icon ion-md-calculator" style="margin-right: 2%;"></i>Administración pendientes</a>
   <button style="margin-left:3%; width:70%; margin-top:10%;" class="btn btn-primary" id="cerrar"><i class="icon ion-md-contact"></i>Cerrar Sesión</button>
-</div>`
+  </div>`
 
     const menu = document.getElementById('sidebar-container')
     menu.innerHTML = template
 
 }
-
 
 const cerrarSesion = () => {
 

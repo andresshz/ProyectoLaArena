@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT"
+      crossorigin="anonymous"
+    />
+    <link
+      href="https://unpkg.com/ionicons@4.5.10-0/dist/css/ionicons.min.css"
+      rel="stylesheet"
+    />
+    <link rel="icon" type="image/svg" href="logo.svg" />
+    
+    <title>Crear PDF</title>
+  </head>
+  <body id="body">
+    <div style="width: 100%" id="content">
+      <h1 style="text-align: center">Crear PDF</h1>
+      <table style="width: 60%; margin: 0 auto" class="table">
+        <thead>
+          <tr>
+            <th scope="col">Nombre Compra</th>
+            <th scope="col">Total</th>
+            <th scope="col">Fecha</th>
+          </tr>
+        </thead>
+        <tbody id="tbody"></tbody>
+      </table>
+      <button id="btnPdf" class="btn btn-success">Crear pdf</button>
+    </div>
+  </body>
+  <script src="crearPdf.js" ></script>
+</html>

@@ -13,17 +13,67 @@ const numberValidate = (cadena) => {
         return "false";
     }
 }
+const validarBoton = (obj) => {
+    return Object.keys(obj).length === 0
+}
+
+const confirmarPagos = (datos = {}) => {
+
+    const btnConfirmar = document.getElementById('btn-confirmar')
+
+    btnConfirmar.onclick = async () => {
+        const validarBtn = validarBoton(datos)
+        
+        if (validarBtn === true) {
+            Swal.fire({
+                title: 'Debe agregar elementos para poder guardar!!',
+                icon: 'error',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'OK'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    return;
+                }
+            })
+            return;
+        }
+
+        const request = await fetch('/agregarCuadrar', {
+         method:'POST',
+         headers:{
+            'Content-Type':'application/json'
+         },
+         body: JSON.stringify(datos)
+        })
+
+        const responses = await request.text()
+        if (responses === 'Exito') {
+            Swal.fire({
+              title: 'Guardado Correctamente!!',
+              icon: 'success',
+              confirmButtonColor: '#3085d6',
+              confirmButtonText: 'OK'
+            }).then((result) => {
+              if (result.isConfirmed) {
+                location.reload()
+              }
+            })
+          }
+    }
+
+
+}
 const cuadrar = (preciosArray = []) => {
 
     const saldosFinales = []
-
     preciosArray.map((elemento) => {
         const arrayTotal = []
 
         const suma = []
         const boton = document.getElementById('btn' + elemento)
         let sumaCantidad = ' '
-        let suma_total = ' '
+        let suma_total = ''
+        let saldoTotal = ''
 
         boton.onclick = () => {
 
@@ -35,7 +85,7 @@ const cuadrar = (preciosArray = []) => {
                 return;
             }
             const value = boton.value
-            if (elemento === '0.01' || elemento === '0.25' || elemento === '0.10' || elemento === '0.25' || elemento === '0.05' ) {
+            if (elemento === '0.01' || elemento === '0.25' || elemento === '0.10' || elemento === '0.25' || elemento === '0.05') {
                 const valorFloat = Number.parseFloat(value)
                 const inputEntero = Number.parseInt(input, 10)
                 arrayTotal.push(inputEntero)
@@ -70,18 +120,20 @@ const cuadrar = (preciosArray = []) => {
 
                 const div = document.getElementById('total-' + value)
                 div.innerHTML = `<h5>$ ${suma_total}</h5>`
-            
-                const saldoTotal = saldosFinales.reduce((a, b) => a + b);
+
+                saldoTotal = saldosFinales.reduce((a, b) => a + b);
                 const saldoFinal = document.getElementById('SaldoFinal')
-                
+
                 saldoFinal.innerHTML = ` <h4 style="width:100%; text-align:center;">Total efectivo: $ ${saldoTotal} </h4>`
-                
-            
 
             }
-
+            const json = { 'totalDinero': saldoTotal }
+            confirmarPagos(json)
         }
+
     })
+
+
 }
 const calcularPagos = () => {
 
@@ -115,6 +167,7 @@ const templateMenu = () => {
   <a href="/produtosAdd"><i class="icon ion-md-clipboard" style="margin-right: 2%;"></i>Administrar productos</a>
   <a href="/inventario"><i class="icon ion-md-cash" style="margin-right: 2%;"></i>Administrar Inventario</a>
   <a href="/monedas"><i class="icon ion-md-clipboard" style="margin-right: 2%;"></i>Cuadrar Caja</a>
+  <a href="/pendientes"><i class="icon ion-md-calculator" style="margin-right: 2%;"></i>Administración pendientes</a>
   <button style="margin-left:3%; width:70%; margin-top:10%;" class="btn btn-primary" id="cerrar"><i class="icon ion-md-contact"></i>Cerrar Sesión</button>
 </div>`
 
@@ -139,6 +192,7 @@ window.onload = () => {
     const isLoged = checkLogin()
     if (isLoged) {
         templateMenu()
+        confirmarPagos()
         calcularPagos()
         btnLimpiar()
         cerrarSesion()

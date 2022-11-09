@@ -119,8 +119,9 @@ const templateMenu = () => {
   <a href="/produtosAdd"><i class="icon ion-md-clipboard" style="margin-right: 2%;"></i>Administrar productos</a>
   <a href="/inventario"><i class="icon ion-md-cash" style="margin-right: 2%;"></i>Administrar Inventario</a>
   <a href="/monedas"><i class="icon ion-md-clipboard" style="margin-right: 2%;"></i>Cuadrar Caja</a>
+  <a href="/pendientes"><i class="icon ion-md-calculator" style="margin-right: 2%;"></i>Administración pendientes</a>
   <button style="margin-left:3%; width:70%; margin-top:10%;" class="btn btn-primary" id="cerrar"><i class="icon ion-md-contact"></i>Cerrar Sesión</button>
-</div>`
+  </div>`
 
     const menu = document.getElementById('sidebar-container')
     menu.innerHTML = template
@@ -128,10 +129,10 @@ const templateMenu = () => {
 }
 
 
-const cerrarSesion = () =>{
+const cerrarSesion = () => {
 
     const btn = document.getElementById('cerrar')
-    btn.onclick = () =>{
+    btn.onclick = () => {
         window.location.href = "/login"
         localStorage.removeItem('tokenSecreto');
     }

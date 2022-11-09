@@ -1,8 +1,5 @@
 import mongoose from "mongoose";
-import dotenv from 'dotenv';
-dotenv.config()
 
-mongoose.connect(process.env.MONGODB)
 
 const Pendientes = mongoose.model('pendientes', {
     nombre: { type: String, required: true, minlength: 3 },
