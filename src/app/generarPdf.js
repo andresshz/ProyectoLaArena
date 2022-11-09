@@ -9,6 +9,7 @@ const generarPDF = () => {
     doc.save('registro.pdf')
     console.log('xd')
 }
+
 function formato(texto) {
     return texto.replace(/^(\d{4})-(\d{2})-(\d{2})$/g, '$3/$2/$1');
 }
@@ -29,21 +30,20 @@ const capturarFecha = () => {
         const nombrePdf = document.getElementById('nombre').value
         const fechaInput = document.getElementById('fecha')
         const fechaValor = fechaInput.value
-
         const formatoFecha = formato(fechaValor)
-
+        const formatDate = formatoFecha.replace(/^(0+)/g, '');
         const emptyFecha = validacionEmpty(fechaValor)
         const emptyNombre = validacionEmpty(nombrePdf)
         if (emptyFecha === 'false') {
-            Swal.fire('Porfavor rellene los campos vacios!!!!')
+            Swal.fire('Porfavor rellene los campos vacios.')
             return;
         }
         if (emptyNombre === 'false') {
-            Swal.fire('Porfavor rellene los campos vacios!!!!')
+            Swal.fire('Porfavor rellene los campos vacios.')
             return;
         }
 
-        const json = { 'fecha': formatoFecha, nombre: nombrePdf }
+        const json = { fecha: formatDate, nombre: nombrePdf }
 
         const request = await fetch('/pdfCompra', {
             method: 'POST',
@@ -52,10 +52,12 @@ const capturarFecha = () => {
             },
             body: JSON.stringify(json)
         })
-
+ 
         const responses = await request.json()
         const embed = responses.embed
-
+        const validarBtn = validarBoton(responses)
+        console.log(validarBtn)
+        console.log(responses)
         if (responses.respuesta === 'exito') {
             let x = window.open();
             x.document.open();
@@ -71,9 +73,9 @@ const capturarFecha = () => {
                     location.reload()
                 }
             })
-        } else if (responses === 'Error') {
+        } else if (responses.respuesta === 'Error') {
             Swal.fire({
-                title: 'No se encontraron registros en esta fecha!!',
+                title: 'No se encontraron registros en esta fecha.',
                 icon: 'warning',
                 confirmButtonColor: '#3085d6',
                 confirmButtonText: 'OK'

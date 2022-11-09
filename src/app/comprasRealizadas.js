@@ -34,7 +34,7 @@ const EliminarCompra = (posiciones = []) => {
                             'Compra eliminada!!!',
                             'success'
                         ).then((result) => {
-                            if (result.isConfirmed){
+                            if (result.isConfirmed) {
                                 location.reload()
                             }
                         })
@@ -101,17 +101,17 @@ const templateMenu = () => {
   <a href="/pendientes"><i class="icon ion-md-calculator" style="margin-right: 2%;"></i>Administración pendientes</a>
   <button style="margin-left:3%; width:70%; margin-top:10%;" class="btn btn-primary" id="cerrar"><i class="icon ion-md-contact"></i>Cerrar Sesión</button>
   </div>`
-  
+
     const menu = document.getElementById('sidebar-container')
     menu.innerHTML = template
-  
-  }
+
+}
 
 
-const cerrarSesion = () =>{
+const cerrarSesion = () => {
 
     const btn = document.getElementById('cerrar')
-    btn.onclick = () =>{
+    btn.onclick = () => {
         window.location.href = "/login"
         localStorage.removeItem('tokenSecreto');
     }

@@ -1,5 +1,4 @@
 import express from 'express'
-import { jsPDF } from 'jspdf';
 import { Controller, isAuthenticated } from './controllers/controller.user.js';
 import { ControllerProductos } from './controllers/controller.productos.js';
 import { ControllerCompras } from './controllers/compra.controller.js';
@@ -8,13 +7,11 @@ import { Inventario } from './controllers/controller.inventario.js';
 import { Pdf } from './controllers/controller.generarpdf.js';
 import { PendientesController } from './controllers/pendietes.controller.js';
 import { ControllerCuadrar } from './controllers/cuadrar.controller.js';
-import { variables } from './controllers/dependencias.js';
 import mongoose from "mongoose";
 import dotenv from 'dotenv';
 import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
 dotenv.config()
-
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const port = process.env.PORT
@@ -105,9 +102,9 @@ app.post('/logeo', Controller.login)
 app.post('/add', ControllerProductos.añadir)
 app.post('/buyConfirm', ControllerCompras.agregar)
 
-// app.get('*',(req, res)=>{
-//     res.redirect('/login')
-// })
+app.get('*',(req, res)=>{
+    res.redirect('/login')
+})
 
 app.listen(port, () => {
     console.log("Arrancando api!!!!" + port)

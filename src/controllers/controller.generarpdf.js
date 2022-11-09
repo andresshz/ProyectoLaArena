@@ -7,8 +7,11 @@ import { Compra } from '../models/compra.model.js'
 const funcionPdf = (compras = {}) => {
 
     const array = []
-    compras.map(elemento => {
-        array.push(elemento.nombreCompra, elemento.total, elemento.fecha)
+    compras.forEach((elemento, posicion)=>{
+       let arreglo = []
+       arreglo.push(elemento.nombreCompra, elemento.total, elemento.fecha)
+       array.push(arreglo)
+
     })
     return array;
 
@@ -20,31 +23,32 @@ const Pdf = {
         try {
 
             const { body } = req
+
             const compras = await Compra.find({ fecha: body.fecha })
             if (compras) {
                 const doc = new jsPDF();
                 doc.setFontSize(20);
                 doc.text(20, 20, 'Registros de compras fecha ' + body.fecha);
                 const columns = ["Nombre Compra", "Total", "Fecha"];
-                const data = [
-                    funcionPdf(compras),
-                ];
+                const data = funcionPdf(compras)
 
                 doc.autoTable(columns, data,
                     { margin: { top: 25 } }
                 );
                 let string = doc.output('datauristring')
                 let embed = "<embed width='100%' height='100%' src='" + string + "'/>"
-               
+
                 // doc.save(`${body.nombre}.pdf`)
                 const objeto = {
                     'compras': compras,
                     'respuesta': 'exito',
-                    'embed':embed
+                    'embed': embed
                 }
+
                 res.status(200).send(objeto)
+
             } else {
-                res.status(500).send(e)
+                res.status(500).send({ 'respuesta': 'Error' })
             }
         } catch (e) {
             res.status(500).send(e)
