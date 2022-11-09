@@ -54,7 +54,13 @@ const capturarFecha = () => {
         })
 
         const responses = await request.json()
+        const embed = responses.embed
+
         if (responses.respuesta === 'exito') {
+            let x = window.open();
+            x.document.open();
+            x.document.write(embed);
+            x.document.close();
             Swal.fire({
                 title: 'PDF creado con exito.',
                 icon: 'success',

@@ -33,11 +33,14 @@ const Pdf = {
                 doc.autoTable(columns, data,
                     { margin: { top: 25 } }
                 );
-                doc.output("dataurlnewwindow", { filename: "prueba.pdf" });
+                let string = doc.output('datauristring')
+                let embed = "<embed width='100%' height='100%' src='" + string + "'/>"
+               
                 // doc.save(`${body.nombre}.pdf`)
                 const objeto = {
                     'compras': compras,
-                    'respuesta': 'exito'
+                    'respuesta': 'exito',
+                    'embed':embed
                 }
                 res.status(200).send(objeto)
             } else {
