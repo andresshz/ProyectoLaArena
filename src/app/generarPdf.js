@@ -42,7 +42,7 @@ const capturarFecha = () => {
             Swal.fire('Porfavor rellene los campos vacios!!!!')
             return;
         }
-        
+
         const json = { 'fecha': formatoFecha, nombre: nombrePdf }
 
         const request = await fetch('/pdfCompra', {
@@ -54,7 +54,6 @@ const capturarFecha = () => {
         })
 
         const responses = await request.json()
-
         if (responses.respuesta === 'exito') {
             Swal.fire({
                 title: 'PDF creado con exito.',

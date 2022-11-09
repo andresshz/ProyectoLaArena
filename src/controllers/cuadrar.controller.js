@@ -2,7 +2,6 @@ import { Cuadrar } from "../models/cuadrarcaja.js";
 
 
 const ControllerCuadrar = {
-
     guardar: async (req, res) => {
 
         try {

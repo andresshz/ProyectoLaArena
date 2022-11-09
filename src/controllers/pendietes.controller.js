@@ -4,8 +4,6 @@ import { Pendientes } from "../models/pendientes.model.js";
 const PendientesController = {
 
     agregar: async (req, res) => {
-
-
         try {
             const { body } = req
             console.log(body.precio)
