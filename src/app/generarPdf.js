@@ -27,23 +27,18 @@ const capturarFecha = () => {
     const formulario = document.getElementById('form')
     formulario.onsubmit = async (e) => {
         e.preventDefault()
-        const nombrePdf = document.getElementById('nombre').value
         const fechaInput = document.getElementById('fecha')
         const fechaValor = fechaInput.value
         const formatoFecha = formato(fechaValor)
         const formatDate = formatoFecha.replace(/^(0+)/g, '');
         const emptyFecha = validacionEmpty(fechaValor)
-        const emptyNombre = validacionEmpty(nombrePdf)
+
         if (emptyFecha === 'false') {
             Swal.fire('Porfavor rellene los campos vacios.')
             return;
         }
-        if (emptyNombre === 'false') {
-            Swal.fire('Porfavor rellene los campos vacios.')
-            return;
-        }
 
-        const json = { fecha: formatDate, nombre: nombrePdf }
+        const json = { fecha: formatDate }
 
         const request = await fetch('/pdfCompra', {
             method: 'POST',

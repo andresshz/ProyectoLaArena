@@ -27,7 +27,7 @@ const Pdf = {
 
             const compras = await Compra.find({ fecha: body.fecha })
             const validarBtn = validarBoton(compras)
-            console.log(validarBtn)
+
             if (validarBtn === true) {
                 res.status(500).send({ respuesta: 'Error' })
                 return;
@@ -45,7 +45,6 @@ const Pdf = {
                 let string = doc.output('datauristring')
                 let embed = "<embed width='100%' height='100%' src='" + string + "'/>"
 
-                // doc.save(`${body.nombre}.pdf`)
                 const objeto = {
                     'compras': compras,
                     'respuesta': 'exito',

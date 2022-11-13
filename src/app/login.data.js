@@ -4,7 +4,9 @@ const initTemplate = () => {
 <div style="width:100%; margin-top:10%">
 
  <form id="formulario" style="width:400px; margin:0 auto; background-color:white; padding:30px; border-radius:3px;">
+
  <h3 style="text-align:center;">Login</h3>
+ <img style="margin-left:40%; margin-top:1%; margin-bottom:2%;" src="user.png">
   <div class="mb-3">
     <label for="username" class="form-label">Ingrese username:</label>
     <input type="text" class="form-control" id="username" name="username">
@@ -67,9 +69,9 @@ const logeo = () => {
             return;
         }else{
             localStorage.setItem('tokenSecreto', token)
-            Swal.fire('Logeado correctamente, bienvenido!!!!')
+            Swal.fire('Logeado correctamente.')
             form.reset();
-            setTimeout( function() { window.location.href = "/administracion"; }, 5000 );
+            setTimeout( function() { window.location.href = "/administracion"; }, 3000 );
             
         }
         
