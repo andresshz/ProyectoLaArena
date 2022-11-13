@@ -23,7 +23,7 @@ const confirmarPagos = (datos = {}) => {
 
     btnConfirmar.onclick = async () => {
         const validarBtn = validarBoton(datos)
-        
+
         if (validarBtn === true) {
             Swal.fire({
                 title: 'Debe agregar elementos para poder guardar!!',
@@ -39,26 +39,31 @@ const confirmarPagos = (datos = {}) => {
         }
 
         const request = await fetch('/agregarCuadrar', {
-         method:'POST',
-         headers:{
-            'Content-Type':'application/json'
-         },
-         body: JSON.stringify(datos)
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(datos)
         })
 
-        const responses = await request.text()
-        if (responses === 'Exito') {
+        const responses = await request.json()
+        const embed = responses.embed
+        if (responses.respuesta === 'exito') {
+            let x = window.open();
+            x.document.open();
+            x.document.write(embed);
+            x.document.close();
             Swal.fire({
-              title: 'Guardado Correctamente!!',
-              icon: 'success',
-              confirmButtonColor: '#3085d6',
-              confirmButtonText: 'OK'
+                title: 'PDF Generado Correctamente.',
+                icon: 'success',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'OK'
             }).then((result) => {
-              if (result.isConfirmed) {
-                location.reload()
-              }
+                if (result.isConfirmed) {
+                    location.reload()
+                }
             })
-          }
+        }
     }
 
 
@@ -66,14 +71,26 @@ const confirmarPagos = (datos = {}) => {
 const cuadrar = (preciosArray = []) => {
 
     const saldosFinales = []
+
+    let suma20 = '0'
+    let suma10 = 0
+    let suma5 = 0
+    let suma1 = 0
+    let suma025 = 0
+    let suma010 = 0
+    let suma05 = 0
+    let suma001 = 0
     preciosArray.map((elemento) => {
         const arrayTotal = []
+        const array20 = [], array10 = [], array5 = [], array1 = []
+        const array025 = [], array010 = [], array05 = [], array001 = []
 
         const suma = []
         const boton = document.getElementById('btn' + elemento)
         let sumaCantidad = ' '
         let suma_total = ''
         let saldoTotal = ''
+
 
         boton.onclick = () => {
 
@@ -85,7 +102,49 @@ const cuadrar = (preciosArray = []) => {
                 return;
             }
             const value = boton.value
-            if (elemento === '0.01' || elemento === '0.25' || elemento === '0.10' || elemento === '0.25' || elemento === '0.05') {
+            if (value === '20') {
+                const Entero = Number.parseInt(input, 10)
+                array20.push(Entero)
+                suma20 = array20.reduce((a, b) => a + b)
+            }
+            if (value === '10') {
+                const Entero = Number.parseInt(input, 10)
+                array10.push(Entero)
+                suma10 = array10.reduce((a, b) => a + b)
+            }
+            if (value === '5') {
+                const Entero = Number.parseInt(input, 10)
+                array5.push(Entero)
+                suma5 = array5.reduce((a, b) => a + b)
+            }
+
+            if (value === '1') {
+                const Entero = Number.parseInt(input, 10)
+                array1.push(Entero)
+                suma1 = array1.reduce((a, b) => a + b)
+            }
+            if (value === '0.25') {
+                const Entero = Number.parseInt(input, 10)
+                array025.push(Entero)
+                suma025 = array025.reduce((a, b) => a + b)
+            }
+            if (value === '0.10') {
+                const Entero = Number.parseInt(input, 10)
+                array010.push(Entero)
+                suma010 = array010.reduce((a, b) => a + b)
+            }
+            if (value === '0.05') {
+                const Entero = Number.parseInt(input, 10)
+                array05.push(Entero)
+                suma05 = array05.reduce((a, b) => a + b)
+            }
+            if (value === '0.01') {
+                const Entero = Number.parseInt(input, 10)
+                array001.push(Entero)
+                suma001 = array001.reduce((a, b) => a + b)
+            }
+
+            if (value === '0.01' || value === '0.25' || value === '0.10' || value === '0.05') {
                 const valorFloat = Number.parseFloat(value)
                 const inputEntero = Number.parseInt(input, 10)
                 arrayTotal.push(inputEntero)
@@ -127,7 +186,10 @@ const cuadrar = (preciosArray = []) => {
                 saldoFinal.innerHTML = ` <h4 style="width:100%; text-align:center;">Total efectivo: $ ${saldoTotal} </h4>`
 
             }
-            const json = { 'totalDinero': saldoTotal }
+            const totalBilletes = `total #20: ${suma20} , total #10:  ${suma10} , total #5: ${suma5} , total #1: ${suma1}`
+            
+            const totalMonedas = `total #0.25: ${suma025} , total #0.10: ${suma010} , total #0.05: ${suma05} , total #0.01: ${suma001}`
+            const json = { 'totalDinero': '$' + saldoTotal, 'totalBilletes': totalBilletes, 'totalMonedas': totalMonedas }
             confirmarPagos(json)
         }
 

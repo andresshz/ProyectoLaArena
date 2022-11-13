@@ -1,4 +1,3 @@
-import e from 'express'
 import { jsPDF } from 'jspdf'
 import autoTable from 'jspdf-autotable'
 import { Compra } from '../models/compra.model.js'

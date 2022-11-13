@@ -56,8 +56,7 @@ const capturarFecha = () => {
         const responses = await request.json()
         const embed = responses.embed
         const validarBtn = validarBoton(responses)
-        console.log(validarBtn)
-        console.log(responses)
+
         if (responses.respuesta === 'exito') {
             let x = window.open();
             x.document.open();
